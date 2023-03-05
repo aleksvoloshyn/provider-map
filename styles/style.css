@@ -1,2 +1,94 @@
+.hide {
+  display: none;
+}
+
 .container {
+  margin: 0 auto;
+  width: 1280px;
+  height: 720px;
+  background-image: url('/images/map.png');
+}
+
+.regions {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.regions-part {
+  width: 33%;
+  height: 50%;
+  /* border: 1px solid green; */
+}
+
+.regions-europe,
+.regions-northamerica,
+.regions-asia,
+.regions-southamerica,
+.regions-africa,
+.regions-australia {
+  position: relative;
+}
+
+.regions-northamerica {
+  height: 62%;
+}
+
+.regions-asia {
+  height: 65%;
+}
+.regions-southamerica {
+  width: 40%;
+  height: 40%;
+}
+
+.regions-africa {
+  width: 25%;
+  height: 40%;
+}
+.regions-australia {
+  width: 25%;
+}
+
+.man {
+  cursor: pointer;
+}
+
+.man-l {
+  width: 30px;
+}
+.man-m {
+  width: 20px;
+}
+.man-s {
+  width: 12px;
+}
+
+.men-northamerica,
+.men-europe,
+.men-asia,
+.men-southamerica,
+.men-africa,
+.men-australia {
+  position: absolute;
+}
+.men-northamerica {
+  top: 58%;
+  left: 59%;
+}
+.men-europe {
+  top: 68%;
+  left: 50%;
+}
+.men-asia {
+  top: 70%;
+  left: 16%;
+}
+.men-southamerica {
+  top: 1%;
+  left: 74%;
+}
+.men-australia {
+  top: 14%;
+  left: 62%;
 }
