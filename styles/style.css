@@ -23,6 +23,7 @@
 .dialog-start {
   color: blue;
   text-decoration: none;
+  z-index: 1;
 }
 
 .dialog-start {
@@ -97,6 +98,7 @@
 .men-africa,
 .men-australia {
   position: absolute;
+  z-index: 1;
 }
 .men-northamerica {
   top: 51%;
@@ -122,6 +124,7 @@
 /* devices */
 .device {
   width: 40px;
+  z-index: 1000;
 }
 
 .device-s,
@@ -135,11 +138,13 @@
   position: relative;
   top: 48%;
   left: 46%;
+  z-index: 1000;
 }
 
 .devices-northamerica .device-s {
   left: 106px;
   top: 42px;
+  /* z-index: 1000; */
 }
 .devices-northamerica .device-m {
   left: 60px;
@@ -228,6 +233,7 @@
 
 .circle-empty {
   width: 40px;
+  z-index: 1;
 }
 .circle-empty--westamerica,
 .circle-empty--europe,
@@ -250,4 +256,259 @@
 .circle-empty--oceania {
   top: -4%;
   left: 40%;
+}
+
+.line {
+  position: absolute;
+  z-index: 0;
+}
+
+.east-usa_north-america_large {
+  top: -9%;
+  left: -1%;
+}
+.east-usa_north-america_medium {
+  top: -7%;
+  left: -3%;
+}
+.east-usa_north-america_small {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_north-america_large {
+  top: -7%;
+  left: -1%;
+}
+.west-usa_north-america_medium {
+  top: -7%;
+  left: -1%;
+}
+.west-usa_north-america_small {
+  top: -7%;
+  left: -1%;
+}
+
+.east-usa_europe_large {
+  top: -9%;
+  left: -1%;
+}
+.east-usa_europe_medium {
+  top: -7%;
+  left: -3%;
+}
+.east-usa_europe_small {
+  top: -7%;
+  left: -3%;
+}
+
+.west-usa_europe_large {
+  top: -7%;
+  left: -1%;
+}
+.west-usa_europe_medium {
+  top: -7%;
+  left: -1%;
+}
+.west-usa_europe_small {
+  top: -7%;
+  left: -1%;
+}
+
+.east-usa_asia_large {
+  top: -9%;
+  left: -1%;
+}
+.east-usa_asia_medium {
+  top: -7%;
+  left: -3%;
+}
+.east-usa_asia_small {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_asia_large {
+  top: -9%;
+  left: -1%;
+}
+.west-usa_asia_medium {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_asia_small {
+  top: -7%;
+  left: -3%;
+}
+
+.east-usa_oceania_large {
+  top: -9%;
+  left: -1%;
+}
+.east-usa_oceania_medium {
+  top: -7%;
+  left: -3%;
+}
+.east-usa_oceania_small {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_oceania_large {
+  top: -9%;
+  left: -1%;
+}
+.west-usa_oceania_medium {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_oceania_small {
+  top: -7%;
+  left: -3%;
+}
+
+.east-usa_south-america_large {
+  top: -9%;
+  left: -1%;
+}
+.east-usa_south-america_medium {
+  top: -7%;
+  left: -3%;
+}
+.east-usa_south-america_small {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_south-america_large {
+  top: -9%;
+  left: -1%;
+}
+.west-usa_south-america_medium {
+  top: -7%;
+  left: -3%;
+}
+.west-usa_south-america_small {
+  top: -7%;
+  left: -3%;
+}
+
+/* europe lines */
+.germany_asia_large {
+  top: -11%;
+  left: -101%;
+}
+.germany_asia_medium {
+  top: -11%;
+  left: -101%;
+}
+.germany_asia_small {
+  top: -11%;
+  left: -101%;
+}
+.germany_europe_large {
+  top: -13%;
+  left: -102%;
+}
+.germany_europe_medium {
+  top: -15%;
+  left: -102%;
+}
+.germany_europe_small {
+  top: -13%;
+  left: -102%;
+}
+.germany_north-america_large {
+  top: -13%;
+  left: -102%;
+}
+.germany_north-america_medium {
+  top: -15%;
+  left: -102%;
+}
+.germany_north-america_small {
+  top: -13%;
+  left: -102%;
+}
+.germany_south-america_large {
+  top: -13%;
+  left: -102%;
+}
+.germany_south-america_medium {
+  top: -15%;
+  left: -102%;
+}
+.germany_south-america_small {
+  top: -13%;
+  left: -102%;
+}
+.germany_oceania_large {
+  top: -12%;
+  left: -100%;
+}
+.germany_oceania_medium {
+  top: -13%;
+  left: -100%;
+}
+.germany_oceania_small {
+  top: -13%;
+  left: -100%;
+}
+
+/* australia lines */
+.singapore_asia_large {
+  top: -138%;
+  left: -261%;
+}
+.singapore_asia_medium {
+  top: -138%;
+  left: -261%;
+}
+.singapore_asia_small {
+  top: -138%;
+  left: -261%;
+}
+.singapore_europe_large {
+  top: -138%;
+  left: -261%;
+}
+.singapore_europe_medium {
+  top: -138%;
+  left: -261%;
+}
+.singapore_europe_small {
+  top: -138%;
+  left: -261%;
+}
+.singapore_north-america_large {
+  top: -138%;
+  left: -261%;
+}
+.singapore_north-america_medium {
+  top: -138%;
+  left: -261%;
+}
+.singapore_north-america_small {
+  top: -138%;
+  left: -261%;
+}
+.singapore_south-america_large {
+  top: -138%;
+  left: -261%;
+}
+.singapore_south-america_medium {
+  top: -138%;
+  left: -261%;
+}
+.singapore_south-america_small {
+  top: -138%;
+  left: -261%;
+}
+.singapore_oceania_large {
+  top: -138%;
+  left: -261%;
+}
+.singapore_oceania_medium {
+  top: -138%;
+  left: -261%;
+}
+.singapore_oceania_small {
+  top: -138%;
+  left: -261%;
 }

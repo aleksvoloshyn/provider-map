@@ -21,10 +21,11 @@ const circleFilled = document.querySelectorAll('.circle-filled')
 let northAmericaUsers = 0
 let europeUsers = 0
 let asiaUsers = 0
-let southAmeriacaUsers = 0
+let southAmericaUsers = 0
 let australiaUsers = 0
 
 let clientsDataChoosen = false
+let server = ''
 
 let serverByteCloudQuantity = []
 
@@ -39,7 +40,7 @@ hideEmptyRegions = () => {
   if (asiaUsers === 0) {
     menAsia.classList.add('hide')
   }
-  if (southAmeriacaUsers === 0) {
+  if (southAmericaUsers === 0) {
     menSouthamerica.classList.add('hide')
   }
   if (australiaUsers === 0) {
@@ -74,7 +75,7 @@ const checkAllRegionsChecked = () => {
     northAmericaUsers !== 0 &&
     europeUsers !== 0 &&
     asiaUsers !== 0 &&
-    southAmeriacaUsers !== 0 &&
+    southAmericaUsers !== 0 &&
     australiaUsers !== 0
   ) {
     changeDialogeText(
@@ -91,17 +92,214 @@ const checkAtleastOneregionChecked = () => {
     northAmericaUsers !== 0 ||
     europeUsers !== 0 ||
     asiaUsers !== 0 ||
-    southAmeriacaUsers !== 0 ||
+    southAmericaUsers !== 0 ||
     australiaUsers !== 0
   ) {
     dialogNextButton.classList.remove('hide')
   }
 }
 
-// function start animation
+// function start animation ************************************
 const startCalculation = () => {
   console.log('calculation - animation is starting now')
+
+  const serverByteCloud = [...new Set(serverByteCloudQuantity)]
+
+  // server eastamerica
+  if (server === 'eastamerica' && northAmericaUsers === 1) {
+    document
+      .querySelector('.east-usa_north-america_small')
+      .classList.remove('hide')
+  }
+  if (server === 'eastamerica' && northAmericaUsers === 2) {
+    document
+      .querySelector('.east-usa_north-america_small')
+      .classList.remove('hide')
+    document
+      .querySelector('.east-usa_north-america_medium')
+      .classList.remove('hide')
+  }
+  if (server === 'eastamerica' && northAmericaUsers === 3) {
+    document
+      .querySelector('.east-usa_north-america_small')
+      .classList.remove('hide')
+    document
+      .querySelector('.east-usa_north-america_medium')
+      .classList.remove('hide')
+    document
+      .querySelector('.east-usa_north-america_large')
+      .classList.remove('hide')
+  }
+  // server westamerica
+  if (server === 'westamerica' && southAmericaUsers === 1) {
+    document
+      .querySelector('.west-usa_south-america_small')
+      .classList.remove('hide')
+  }
+  if (server === 'westamerica' && southAmericaUsers === 2) {
+    document
+      .querySelector('.west-usa_south-america_small')
+      .classList.remove('hide')
+    document
+      .querySelector('.west-usa_south-america_medium')
+      .classList.remove('hide')
+  }
+  if (server === 'westamerica' && southAmericaUsers === 3) {
+    document
+      .querySelector('.west-usa_south-america_small')
+      .classList.remove('hide')
+    document
+      .querySelector('.west-usa_south-america_medium')
+      .classList.remove('hide')
+    document
+      .querySelector('.west-usa_south-america_large')
+      .classList.remove('hide')
+  }
+
+  // server europe
+  if (server === 'europe' && europeUsers === 1) {
+    document.querySelector('.germany_europe_small').classList.remove('hide')
+  }
+  if (server === 'europe' && europeUsers === 2) {
+    document.querySelector('.germany_europe_small').classList.remove('hide')
+    document.querySelector('.germany_europe_medium').classList.remove('hide')
+  }
+  if (server === 'europe' && europeUsers === 3) {
+    document.querySelector('.germany_europe_small').classList.remove('hide')
+    document.querySelector('.germany_europe_medium').classList.remove('hide')
+    document.querySelector('.germany_europe_large').classList.remove('hide')
+  }
+  // server australia
+  if (server === 'australia' && australiaUsers === 1) {
+    document.querySelector('.singapore_oceania_small').classList.remove('hide')
+  }
+  if (server === 'australia' && australiaUsers === 2) {
+    document.querySelector('.singapore_oceania_small').classList.remove('hide')
+    document.querySelector('.singapore_oceania_medium').classList.remove('hide')
+  }
+  if (server === 'australia' && australiaUsers === 3) {
+    document.querySelector('.singapore_oceania_small').classList.remove('hide')
+    document.querySelector('.singapore_oceania_medium').classList.remove('hide')
+    document.querySelector('.singapore_oceania_large').classList.remove('hide')
+  }
+  if (server === 'australia' && asiaUsers === 1) {
+    document.querySelector('.singapore_asia_small').classList.remove('hide')
+  }
+  if (server === 'australia' && asiaUsers === 2) {
+    document.querySelector('.singapore_asia_small').classList.remove('hide')
+    document.querySelector('.singapore_asia_medium').classList.remove('hide')
+  }
+  if (server === 'australia' && asiaUsers === 3) {
+    document.querySelector('.singapore_asia_small').classList.remove('hide')
+    document.querySelector('.singapore_asia_medium').classList.remove('hide')
+    document.querySelector('.singapore_asia_large').classList.remove('hide')
+  }
+
+  serverByteCloud.map((item) => {
+    // europa
+    if (item.contains('circle-empty--europe') && europeUsers === 1) {
+      document.querySelector(`.germany_europe_small`).classList.remove('hide')
+    }
+    if (item.contains('circle-empty--europe') && europeUsers === 2) {
+      document.querySelector(`.germany_europe_small`).classList.remove('hide')
+      document.querySelector(`.germany_europe_medium`).classList.remove('hide')
+    }
+    if (item.contains('circle-empty--europe') && europeUsers === 3) {
+      document.querySelector(`.germany_europe_small`).classList.remove('hide')
+      document.querySelector(`.germany_europe_medium`).classList.remove('hide')
+      document.querySelector(`.germany_europe_large`).classList.remove('hide')
+    }
+    // eastamerica
+    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 1) {
+      document
+        .querySelector(`.east-usa_north-america_small`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 2) {
+      document
+        .querySelector(`.east-usa_north-america_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.east-usa_north-america_medium`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 3) {
+      document
+        .querySelector(`.east-usa_north-america_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.east-usa_north-america_medium`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.east-usa_north-america_large`)
+        .classList.remove('hide')
+    }
+    // westamerica
+    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 1) {
+      document
+        .querySelector(`.west-usa_south-america_small`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 2) {
+      document
+        .querySelector(`.west-usa_south-america_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.west-usa_south-america_medium`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 3) {
+      document
+        .querySelector(`.west-usa_south-america_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.west-usa_south-america_medium`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.west-usa_south-america_large`)
+        .classList.remove('hide')
+    }
+    // australia
+    if (item.contains('circle-empty--oceania') && asiaUsers === 1) {
+      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
+    }
+    if (item.contains('circle-empty--oceania') && asiaUsers === 2) {
+      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
+      document.querySelector(`.singapore_asia_medium`).classList.remove('hide')
+    }
+    if (item.contains('circle-empty--oceania') && asiaUsers === 3) {
+      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
+      document.querySelector(`.singapore_asia_medium`).classList.remove('hide')
+      document.querySelector(`.singapore_asia_large`).classList.remove('hide')
+    }
+    if (item.contains('circle-empty--oceania') && australiaUsers === 1) {
+      document
+        .querySelector(`.singapore_oceania_small`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--oceania') && australiaUsers === 2) {
+      document
+        .querySelector(`.singapore_oceania_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.singapore_oceania_medium`)
+        .classList.remove('hide')
+    }
+    if (item.contains('circle-empty--oceania') && australiaUsers === 3) {
+      document
+        .querySelector(`.singapore_oceania_small`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.singapore_oceania_medium`)
+        .classList.remove('hide')
+      document
+        .querySelector(`.singapore_oceania_large`)
+        .classList.remove('hide')
+    }
+  })
 }
+
+// *******************************************************************************
 
 // function for hide unused empty circles
 const hideUnusedCircles = () => {
@@ -134,9 +332,21 @@ circleEmpty.forEach((circle) => {
       circle.setAttribute('src', '/images/circle_empty.png')
   }
 
-  circle.addEventListener('click', () => {
+  circle.addEventListener('click', (e) => {
     if (clientsDataChoosen === false) {
       circle.setAttribute('src', '/images/server.png')
+      if (e.target.classList.contains('circle-empty--europe')) {
+        server = 'europe'
+      }
+      if (e.target.classList.contains('circle-empty--westamerica')) {
+        server = 'westamerica'
+      }
+      if (e.target.classList.contains('circle-empty--eastamerica')) {
+        server = 'eastamerica'
+      }
+      if (e.target.classList.contains('circle-empty--oceania')) {
+        server = 'australia'
+      }
       clientsDataChoosen = true
       changeDialogeText(
         'Choose minimum two additional spots for ByteCloud and press '
@@ -157,7 +367,6 @@ circleEmpty.forEach((circle) => {
         startCalculation()
       }
     }
-    // startButtonHandler()
   })
 })
 
@@ -166,7 +375,7 @@ const logQuantityOfUsers = () => {
   console.log('North America :' + ' ' + northAmericaUsers)
   console.log('Europe :' + ' ' + europeUsers)
   console.log('Asia :' + ' ' + asiaUsers)
-  console.log('South America :' + ' ' + southAmeriacaUsers)
+  console.log('South America :' + ' ' + southAmericaUsers)
   console.log('Australia :' + ' ' + australiaUsers)
 }
 
@@ -265,7 +474,7 @@ man.forEach((item) => {
         deviceSouthamerica.forEach((dev) => {
           dev.classList.toggle('hide')
         })
-        southAmeriacaUsers = 3
+        southAmericaUsers = 3
         checkAtleastOneregionChecked()
         checkAllRegionsChecked()
       }
@@ -319,7 +528,7 @@ man.forEach((item) => {
             dev.classList.toggle('hide')
           }
         })
-        southAmeriacaUsers = 2
+        southAmericaUsers = 2
         checkAtleastOneregionChecked()
         checkAllRegionsChecked()
       }
@@ -367,7 +576,7 @@ man.forEach((item) => {
         deviceSouthamerica.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
-        southAmeriacaUsers = 1
+        southAmericaUsers = 1
         checkAtleastOneregionChecked()
         checkAllRegionsChecked()
       }
