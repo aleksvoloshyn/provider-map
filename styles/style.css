@@ -8,7 +8,21 @@
   height: 720px;
   background-image: url('/images/map.png');
 }
+.dialog-section {
+  font-size: 26px;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+.dialog-text,
+.dialog-next {
+  margin: 0;
+}
 
+.dialog-next {
+  color: blue;
+  text-decoration: none;
+}
 .regions {
   display: flex;
   flex-wrap: wrap;
@@ -73,22 +87,155 @@
   position: absolute;
 }
 .men-northamerica {
-  top: 58%;
+  top: 51%;
   left: 59%;
 }
 .men-europe {
-  top: 68%;
+  top: 60%;
   left: 50%;
 }
 .men-asia {
-  top: 70%;
+  top: 63%;
   left: 16%;
 }
 .men-southamerica {
-  top: 1%;
+  top: -9%;
   left: 74%;
 }
 .men-australia {
-  top: 14%;
-  left: 62%;
+  top: 6%;
+  left: 63%;
+}
+
+/* devices */
+.device {
+  width: 40px;
+}
+
+.device-s,
+.device-m,
+.device-l {
+  position: absolute;
+}
+
+/* north america */
+.devices-northamerica {
+  position: relative;
+  top: 48%;
+  left: 46%;
+}
+
+.devices-northamerica .device-s {
+  left: 106px;
+  top: 42px;
+}
+.devices-northamerica .device-m {
+  left: 60px;
+  top: 68px;
+}
+.devices-northamerica .device-l {
+  left: 10px;
+  top: 42px;
+}
+/*europe */
+.devices-europe {
+  position: relative;
+  top: 60%;
+  left: 46%;
+}
+
+.devices-europe .device-s {
+  left: 44px;
+  top: 22px;
+}
+.devices-europe .device-m {
+  left: -46px;
+  top: 60px;
+}
+.devices-europe .device-l {
+  left: 116px;
+  top: -6px;
+}
+/*asia */
+.devices-asia {
+  position: relative;
+  top: 47%;
+  left: 46%;
+}
+
+.devices-asia .device-s {
+  left: -72px;
+  top: 107px;
+}
+.devices-asia .device-m {
+  left: -186px;
+  top: 132px;
+}
+.devices-asia .device-l {
+  left: -22px;
+  top: 38px;
+}
+/*south america */
+.devices-southamerica {
+  position: relative;
+  top: -13%;
+  left: 97%;
+}
+
+.devices-southamerica .device-s {
+  left: -78px;
+  top: 36px;
+}
+.devices-southamerica .device-m {
+  left: -104px;
+  top: 95px;
+}
+.devices-southamerica .device-l {
+  left: -144px;
+  top: 10px;
+}
+/*australia */
+.devices-australia {
+  position: relative;
+  left: 99%;
+  top: -9%;
+}
+
+.devices-australia .device-s {
+  left: -50px;
+  top: 90px;
+}
+.devices-australia .device-m {
+  left: -154px;
+  top: 94px;
+}
+.devices-australia .device-l {
+  left: -102px;
+  top: 90px;
+}
+
+.circle-empty {
+  width: 40px;
+}
+.circle-empty--westamerica,
+.circle-empty--europe,
+.circle-empty--oceania,
+.circle-empty--eastamerica {
+  position: absolute;
+}
+.circle-empty--westamerica {
+  top: 65%;
+  left: 40%;
+}
+.circle-empty--eastamerica {
+  top: 62%;
+  left: 83%;
+}
+.circle-empty--europe {
+  top: 66%;
+  left: 46%;
+}
+.circle-empty--oceania {
+  top: -4%;
+  left: 40%;
 }
