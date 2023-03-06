@@ -13,14 +13,20 @@ const menAustralia = document.querySelector('.men-australia')
 
 const dialogText = document.querySelector('.dialog-text')
 const dialogNextButton = document.querySelector('.dialog-next')
+const dialogStartButton = document.querySelector('.dialog-start')
 
 const circleEmpty = document.querySelectorAll('.circle-empty')
+const circleFilled = document.querySelectorAll('.circle-filled')
 
 let northAmericaUsers = 0
 let europeUsers = 0
 let asiaUsers = 0
 let southAmeriacaUsers = 0
 let australiaUsers = 0
+
+let clientsDataChoosen = false
+
+let serverByteCloudQuantity = []
 
 // function for hiding unused regions
 hideEmptyRegions = () => {
@@ -91,6 +97,69 @@ const checkAtleastOneregionChecked = () => {
     dialogNextButton.classList.remove('hide')
   }
 }
+
+// function start animation
+const startCalculation = () => {
+  console.log('calculation - animation is starting now')
+}
+
+// function for hide unused empty circles
+const hideUnusedCircles = () => {
+  circleEmpty.forEach((item) => {
+    if (item.getAttribute('src') === '/images/circle_empty.png') {
+      item.classList.add('hide')
+    }
+  })
+}
+
+// function on Start BUTTON click
+const startButtonHandler = () => {
+  hideUnusedCircles()
+  changeDialogeText('')
+  dialogStartButton.classList.add('hide')
+  startCalculation()
+}
+
+dialogStartButton.addEventListener('click', () => startButtonHandler())
+
+// function for adding server icon with filledcircle efect
+circleEmpty.forEach((circle) => {
+  circle.onmouseover = () => {
+    if (circle.getAttribute('src') === '/images/circle_empty.png') {
+      circle.setAttribute('src', '/images/circle_filled.png')
+    }
+  }
+  circle.onmouseout = () => {
+    if (circle.getAttribute('src') === '/images/circle_filled.png')
+      circle.setAttribute('src', '/images/circle_empty.png')
+  }
+
+  circle.addEventListener('click', () => {
+    if (clientsDataChoosen === false) {
+      circle.setAttribute('src', '/images/server.png')
+      clientsDataChoosen = true
+      changeDialogeText(
+        'Choose minimum two additional spots for ByteCloud and press '
+      )
+      dialogStartButton.classList.remove('hide')
+    } else {
+      if (circle.getAttribute('src') !== '/images/server.png') {
+        circle.setAttribute('src', '/images/server_ByteCloud.png')
+        serverByteCloudQuantity.push(circle.classList)
+      }
+
+      if (new Set(serverByteCloudQuantity).size === 2) {
+        dialogStartButton.classList.add('dialog-start--active')
+      }
+      if (new Set(serverByteCloudQuantity).size === 3) {
+        changeDialogeText('')
+        dialogStartButton.classList.add('hide')
+        startCalculation()
+      }
+    }
+    // startButtonHandler()
+  })
+})
 
 // log info about quantity of devices in regions
 const logQuantityOfUsers = () => {

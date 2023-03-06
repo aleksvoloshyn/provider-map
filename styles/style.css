@@ -19,9 +19,21 @@
   margin: 0;
 }
 
-.dialog-next {
+.dialog-next,
+.dialog-start {
   color: blue;
   text-decoration: none;
+}
+
+.dialog-start {
+  pointer-events: none;
+  /* pointer-events: visible; */
+  color: teal;
+}
+.dialog-start--active {
+  pointer-events: visible;
+  color: blue;
+  font-weight: 700;
 }
 .regions {
   display: flex;
