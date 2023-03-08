@@ -158,7 +158,7 @@
 .devices-europe {
   position: relative;
   top: 60%;
-  left: 46%;
+  left: 48%;
 }
 
 .devices-europe .device-s {
@@ -232,20 +232,21 @@
 }
 
 .circle-empty {
-  width: 40px;
+  width: 52px;
   z-index: 1;
 }
-.circle-empty--westamerica,
+.circle-empty--westusa,
 .circle-empty--europe,
 .circle-empty--oceania,
-.circle-empty--eastamerica {
+.circle-empty--eastusa {
   position: absolute;
 }
-.circle-empty--westamerica {
+
+.circle-empty--westusa {
   top: 65%;
   left: 40%;
 }
-.circle-empty--eastamerica {
+.circle-empty--eastusa {
   top: 62%;
   left: 83%;
 }
@@ -261,6 +262,19 @@
 .line {
   position: absolute;
   z-index: 0;
+  animation: 1s blinker linear infinite;
+}
+@keyframes blinker {
+  0% {
+    filter: drop-shadow(3px -2px 2px salmon);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .east-usa_north-america_large {
@@ -404,15 +418,15 @@
 }
 .germany_europe_large {
   top: -13%;
-  left: -102%;
+  left: -101%;
 }
 .germany_europe_medium {
-  top: -15%;
-  left: -102%;
+  top: -13%;
+  left: -101%;
 }
 .germany_europe_small {
-  top: -13%;
-  left: -102%;
+  top: -12%;
+  left: -100%;
 }
 .germany_north-america_large {
   top: -13%;
@@ -501,7 +515,7 @@
   left: -261%;
 }
 .singapore_oceania_large {
-  top: -138%;
+  top: -137%;
   left: -261%;
 }
 .singapore_oceania_medium {
@@ -509,6 +523,6 @@
   left: -261%;
 }
 .singapore_oceania_small {
-  top: -138%;
-  left: -261%;
+  top: -136%;
+  left: -263%;
 }

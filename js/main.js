@@ -18,6 +18,11 @@ const dialogStartButton = document.querySelector('.dialog-start')
 const circleEmpty = document.querySelectorAll('.circle-empty')
 const circleFilled = document.querySelectorAll('.circle-filled')
 
+const germanyServer = document.querySelector('.europe')
+const eastUsaServer = document.querySelector('.east-usa')
+const westUsaServer = document.querySelector('.west-usa')
+const oceaniaServer = document.querySelector('.oceania')
+
 let northAmericaUsers = 0
 let europeUsers = 0
 let asiaUsers = 0
@@ -26,8 +31,8 @@ let australiaUsers = 0
 
 let clientsDataChoosen = false
 let server = ''
-
-let serverByteCloudQuantity = []
+let serverClouds = []
+let serverRegions = []
 
 // function for hiding unused regions
 hideEmptyRegions = () => {
@@ -99,204 +104,81 @@ const checkAtleastOneregionChecked = () => {
   }
 }
 
+// function addLinesToServer
+const addLinesToServer = (
+  dataServer, // 'germany', 'east-usa'
+  deviceRegion, // 'europe',  'north-america',
+  users, // europeUsers,   northAmericaUsers,
+  location,
+  regServer // europeServer, eastUsaServer
+) => {
+  // const serverByteCloud = [...new Set(serverClouds)]
+  // console.log(serverByteCloud)
+
+  // nearest server
+  console.log(`serverClouds: ${serverClouds}`)
+  console.log(`serverRegions: ${serverRegions}`)
+  console.log(serverRegions)
+  console.log(`deviceRegion: ${deviceRegion}`)
+  console.log(`server: ${server}`)
+  console.log(serverClouds.length)
+
+  if (
+    (users === 1 && serverClouds.includes(deviceRegion)) ||
+    (users === 1 && serverRegions.includes(deviceRegion)) ||
+    (users === 1 && serverRegions.includes(server) && server === deviceRegion)
+  ) {
+    console.log(1)
+    location.insertAdjacentHTML(
+      'afterend',
+      `<img class="line ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
+    )
+  }
+  if (
+    (users === 2 && serverClouds.includes(deviceRegion)) ||
+    (users === 2 && serverRegions.includes(deviceRegion)) ||
+    (users === 2 && serverRegions.includes(server) && server === deviceRegion)
+  ) {
+    location.insertAdjacentHTML(
+      'afterend',
+      `<img class="line ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+        <img class="line ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
+        `
+    )
+  }
+  if (
+    (users === 3 && serverClouds.includes(deviceRegion)) ||
+    (users === 3 && serverRegions.includes(deviceRegion)) ||
+    (users === 3 && serverRegions.includes(server) && server === deviceRegion)
+  ) {
+    location.insertAdjacentHTML(
+      'afterend',
+      `<img class="line ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+          <img class="line ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" /> 
+         <img class="line ${dataServer}_${deviceRegion}_large" src="/images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
+    )
+  }
+}
+
 // function start animation ************************************
 const startCalculation = () => {
-  console.log('calculation - animation is starting now')
+  console.log('****************************')
+  addLinesToServer('germany', 'europe', europeUsers, germanyServer)
+  addLinesToServer(
+    'east-usa',
+    'north-america',
+    northAmericaUsers,
+    eastUsaServer
+  )
+  addLinesToServer(
+    'west-usa',
+    'south-america',
+    southAmericaUsers,
+    westUsaServer
+  )
 
-  const serverByteCloud = [...new Set(serverByteCloudQuantity)]
-
-  // server eastamerica
-  if (server === 'eastamerica' && northAmericaUsers === 1) {
-    document
-      .querySelector('.east-usa_north-america_small')
-      .classList.remove('hide')
-  }
-  if (server === 'eastamerica' && northAmericaUsers === 2) {
-    document
-      .querySelector('.east-usa_north-america_small')
-      .classList.remove('hide')
-    document
-      .querySelector('.east-usa_north-america_medium')
-      .classList.remove('hide')
-  }
-  if (server === 'eastamerica' && northAmericaUsers === 3) {
-    document
-      .querySelector('.east-usa_north-america_small')
-      .classList.remove('hide')
-    document
-      .querySelector('.east-usa_north-america_medium')
-      .classList.remove('hide')
-    document
-      .querySelector('.east-usa_north-america_large')
-      .classList.remove('hide')
-  }
-  // server westamerica
-  if (server === 'westamerica' && southAmericaUsers === 1) {
-    document
-      .querySelector('.west-usa_south-america_small')
-      .classList.remove('hide')
-  }
-  if (server === 'westamerica' && southAmericaUsers === 2) {
-    document
-      .querySelector('.west-usa_south-america_small')
-      .classList.remove('hide')
-    document
-      .querySelector('.west-usa_south-america_medium')
-      .classList.remove('hide')
-  }
-  if (server === 'westamerica' && southAmericaUsers === 3) {
-    document
-      .querySelector('.west-usa_south-america_small')
-      .classList.remove('hide')
-    document
-      .querySelector('.west-usa_south-america_medium')
-      .classList.remove('hide')
-    document
-      .querySelector('.west-usa_south-america_large')
-      .classList.remove('hide')
-  }
-
-  // server europe
-  if (server === 'europe' && europeUsers === 1) {
-    document.querySelector('.germany_europe_small').classList.remove('hide')
-  }
-  if (server === 'europe' && europeUsers === 2) {
-    document.querySelector('.germany_europe_small').classList.remove('hide')
-    document.querySelector('.germany_europe_medium').classList.remove('hide')
-  }
-  if (server === 'europe' && europeUsers === 3) {
-    document.querySelector('.germany_europe_small').classList.remove('hide')
-    document.querySelector('.germany_europe_medium').classList.remove('hide')
-    document.querySelector('.germany_europe_large').classList.remove('hide')
-  }
-  // server australia
-  if (server === 'australia' && australiaUsers === 1) {
-    document.querySelector('.singapore_oceania_small').classList.remove('hide')
-  }
-  if (server === 'australia' && australiaUsers === 2) {
-    document.querySelector('.singapore_oceania_small').classList.remove('hide')
-    document.querySelector('.singapore_oceania_medium').classList.remove('hide')
-  }
-  if (server === 'australia' && australiaUsers === 3) {
-    document.querySelector('.singapore_oceania_small').classList.remove('hide')
-    document.querySelector('.singapore_oceania_medium').classList.remove('hide')
-    document.querySelector('.singapore_oceania_large').classList.remove('hide')
-  }
-  if (server === 'australia' && asiaUsers === 1) {
-    document.querySelector('.singapore_asia_small').classList.remove('hide')
-  }
-  if (server === 'australia' && asiaUsers === 2) {
-    document.querySelector('.singapore_asia_small').classList.remove('hide')
-    document.querySelector('.singapore_asia_medium').classList.remove('hide')
-  }
-  if (server === 'australia' && asiaUsers === 3) {
-    document.querySelector('.singapore_asia_small').classList.remove('hide')
-    document.querySelector('.singapore_asia_medium').classList.remove('hide')
-    document.querySelector('.singapore_asia_large').classList.remove('hide')
-  }
-
-  serverByteCloud.map((item) => {
-    // europa
-    if (item.contains('circle-empty--europe') && europeUsers === 1) {
-      document.querySelector(`.germany_europe_small`).classList.remove('hide')
-    }
-    if (item.contains('circle-empty--europe') && europeUsers === 2) {
-      document.querySelector(`.germany_europe_small`).classList.remove('hide')
-      document.querySelector(`.germany_europe_medium`).classList.remove('hide')
-    }
-    if (item.contains('circle-empty--europe') && europeUsers === 3) {
-      document.querySelector(`.germany_europe_small`).classList.remove('hide')
-      document.querySelector(`.germany_europe_medium`).classList.remove('hide')
-      document.querySelector(`.germany_europe_large`).classList.remove('hide')
-    }
-    // eastamerica
-    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 1) {
-      document
-        .querySelector(`.east-usa_north-america_small`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 2) {
-      document
-        .querySelector(`.east-usa_north-america_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.east-usa_north-america_medium`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--eastamerica') && northAmericaUsers === 3) {
-      document
-        .querySelector(`.east-usa_north-america_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.east-usa_north-america_medium`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.east-usa_north-america_large`)
-        .classList.remove('hide')
-    }
-    // westamerica
-    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 1) {
-      document
-        .querySelector(`.west-usa_south-america_small`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 2) {
-      document
-        .querySelector(`.west-usa_south-america_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.west-usa_south-america_medium`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--westamerica') && southAmericaUsers === 3) {
-      document
-        .querySelector(`.west-usa_south-america_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.west-usa_south-america_medium`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.west-usa_south-america_large`)
-        .classList.remove('hide')
-    }
-    // australia
-    if (item.contains('circle-empty--oceania') && asiaUsers === 1) {
-      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
-    }
-    if (item.contains('circle-empty--oceania') && asiaUsers === 2) {
-      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
-      document.querySelector(`.singapore_asia_medium`).classList.remove('hide')
-    }
-    if (item.contains('circle-empty--oceania') && asiaUsers === 3) {
-      document.querySelector(`.singapore_asia_small`).classList.remove('hide')
-      document.querySelector(`.singapore_asia_medium`).classList.remove('hide')
-      document.querySelector(`.singapore_asia_large`).classList.remove('hide')
-    }
-    if (item.contains('circle-empty--oceania') && australiaUsers === 1) {
-      document
-        .querySelector(`.singapore_oceania_small`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--oceania') && australiaUsers === 2) {
-      document
-        .querySelector(`.singapore_oceania_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.singapore_oceania_medium`)
-        .classList.remove('hide')
-    }
-    if (item.contains('circle-empty--oceania') && australiaUsers === 3) {
-      document
-        .querySelector(`.singapore_oceania_small`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.singapore_oceania_medium`)
-        .classList.remove('hide')
-      document
-        .querySelector(`.singapore_oceania_large`)
-        .classList.remove('hide')
-    }
-  })
+  addLinesToServer('singapore', 'oceania', australiaUsers, oceaniaServer)
+  addLinesToServer('singapore', 'asia', asiaUsers, oceaniaServer)
 }
 
 // *******************************************************************************
@@ -328,24 +210,39 @@ circleEmpty.forEach((circle) => {
     }
   }
   circle.onmouseout = () => {
-    if (circle.getAttribute('src') === '/images/circle_filled.png')
+    if (circle.getAttribute('src') === '/images/circle_filled.png') {
       circle.setAttribute('src', '/images/circle_empty.png')
+    }
   }
 
   circle.addEventListener('click', (e) => {
+    console.log(e.target)
+    // console.log(e.target.classList)
+    // console.log(clientsDataChoosen)
+    // console.log(serverClouds)
+
     if (clientsDataChoosen === false) {
       circle.setAttribute('src', '/images/server.png')
-      if (e.target.classList.contains('circle-empty--europe')) {
+
+      if (e.target.classList.contains('europe')) {
         server = 'europe'
+        serverRegions.push(circle.dataset.region)
+        serverRegions.push(circle.dataset.secregion)
       }
-      if (e.target.classList.contains('circle-empty--westamerica')) {
-        server = 'westamerica'
+      if (e.target.classList.contains('east-usa')) {
+        server = 'north-america'
+        serverRegions.push(circle.dataset.region)
+        serverRegions.push(circle.dataset.secregion)
       }
-      if (e.target.classList.contains('circle-empty--eastamerica')) {
-        server = 'eastamerica'
+      if (e.target.classList.contains('west-usa')) {
+        server = 'north-america'
+        serverRegions.push(circle.dataset.region)
+        serverRegions.push(circle.dataset.secregion)
       }
-      if (e.target.classList.contains('circle-empty--oceania')) {
-        server = 'australia'
+      if (e.target.classList.contains('oceania')) {
+        server = 'oceania'
+        serverRegions.push(circle.dataset.region)
+        serverRegions.push(circle.dataset.secregion)
       }
       clientsDataChoosen = true
       changeDialogeText(
@@ -353,15 +250,29 @@ circleEmpty.forEach((circle) => {
       )
       dialogStartButton.classList.remove('hide')
     } else {
+      if (circle.getAttribute('src') === '/images/server.png') {
+        return
+      }
       if (circle.getAttribute('src') !== '/images/server.png') {
         circle.setAttribute('src', '/images/server_ByteCloud.png')
-        serverByteCloudQuantity.push(circle.classList)
+        if (serverClouds.includes(circle.classList[2])) {
+          return
+        } else {
+          serverClouds.push(circle.classList[2])
+          // console.log(serverClouds.length)
+        }
+        if (serverRegions.includes(circle.dataset.region)) {
+          return
+        } else {
+          serverRegions.push(circle.dataset.region)
+          serverRegions.push(circle.dataset.secregion)
+        }
       }
 
-      if (new Set(serverByteCloudQuantity).size === 2) {
+      if (serverClouds.length === 2) {
         dialogStartButton.classList.add('dialog-start--active')
       }
-      if (new Set(serverByteCloudQuantity).size === 3) {
+      if (serverClouds.length === 3) {
         changeDialogeText('')
         dialogStartButton.classList.add('hide')
         startCalculation()
