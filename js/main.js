@@ -167,7 +167,11 @@ const addLinesToServer = (
     (users === 1 && serverRegions.includes(deviceRegion)) ||
     (users === 1 && serverRegions.includes(server) && server === deviceRegion)
   ) {
-    redServers.push({ connectedServer: dataServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: dataServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -180,7 +184,11 @@ const addLinesToServer = (
     (users === 2 && serverRegions.includes(deviceRegion)) ||
     (users === 2 && serverRegions.includes(server) && server === deviceRegion)
   ) {
-    redServers.push({ connectedServer: dataServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: dataServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -194,7 +202,11 @@ const addLinesToServer = (
     (users === 3 && serverRegions.includes(deviceRegion)) ||
     (users === 3 && serverRegions.includes(server) && server === deviceRegion)
   ) {
-    redServers.push({ connectedServer: dataServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: dataServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -206,7 +218,11 @@ const addLinesToServer = (
 
   // reserve server connection
   if (users === 1 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: reserveServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -214,7 +230,11 @@ const addLinesToServer = (
     )
   }
   if (users === 2 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: reserveServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -223,7 +243,11 @@ const addLinesToServer = (
     )
   }
   if (users === 3 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
+    redServers.push({
+      connectedServer: reserveServer,
+      region: deviceRegion,
+      users: users,
+    })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -253,11 +277,15 @@ const addFinalTable = (region, speed, latency, video, stars, insertTo) => {
         <div class="final-table__data">
           <div class="final-table__latency">
             <p class="final-table__topsection">Latency</p>
-            <p class="final-table__datasection">${latency}</p>
+            <p class="final-table__datasection">${(latency / 1000).toFixed(
+              3
+            )}</p>
           </div>
           <div class="final-table__downloadtime">
             <p class="final-table__topsection">Download time</p>
-            <p class="final-table__datasection">${speed}</p>
+            <p class="final-table__datasection">${(speed / 1000).toFixed(
+              2
+            )} sec</p>
           </div>
           <div class="final-table__videostreaming">
             <p class="final-table__topsection">Video streaming</p>
@@ -271,14 +299,6 @@ const addFinalTable = (region, speed, latency, video, stars, insertTo) => {
 // function start animation ************************************
 const startCalculation = () => {
   console.log('****************************')
-  addLinesToServer(
-    'germany', //dataServer
-    'europe', //deviceRegion
-    europeUsers, //users
-    germanyServer, //location
-    'east-usa', //reserveServer
-    eastUsaServer //reserveLocation
-  )
 
   addLinesToServer(
     'east-usa',
@@ -287,6 +307,23 @@ const startCalculation = () => {
     eastUsaServer,
     'west-usa',
     westUsaServer
+  )
+
+  addLinesToServer(
+    'germany', //dataServer
+    'europe', //deviceRegion
+    europeUsers, //users
+    germanyServer, //location
+    'east-usa', //reserveServer
+    eastUsaServer //reserveLocation
+  )
+  addLinesToServer(
+    'singapore',
+    'asia',
+    asiaUsers,
+    oceaniaServer,
+    'germany',
+    germanyServer
   )
   addLinesToServer(
     'west-usa',
@@ -305,18 +342,14 @@ const startCalculation = () => {
     'germany',
     germanyServer
   )
-  addLinesToServer(
-    'singapore',
-    'asia',
-    asiaUsers,
-    oceaniaServer,
-    'germany',
-    germanyServer
-  )
+
   console.log(`server: ${server}`)
   console.log(`serverClouds: ${serverClouds}`)
   console.log(`serverRegions: ${serverRegions}`)
   console.log(`deviceRegions: ${deviceRegions}`)
+
+  // sort by number of users
+  redServers.sort((a, b) => (a.users > b.users ? 1 : -1))
 
   redServers.map((red) => {
     serversSpeed.map((speed) => {
@@ -399,6 +432,7 @@ const startCalculation = () => {
         blueServers.push({
           connectedServer: finalServerStart,
           region: region,
+          users: regionUsers,
         })
         finalServerLocation.insertAdjacentHTML(
           'afterend',
@@ -409,6 +443,7 @@ const startCalculation = () => {
         blueServers.push({
           connectedServer: finalServerStart,
           region: region,
+          users: regionUsers,
         })
         finalServerLocation.insertAdjacentHTML(
           'afterend',
@@ -420,6 +455,7 @@ const startCalculation = () => {
         blueServers.push({
           connectedServer: finalServerStart,
           region: region,
+          users: regionUsers,
         })
         finalServerLocation.insertAdjacentHTML(
           'afterend',
@@ -436,6 +472,9 @@ const startCalculation = () => {
     startRedServer(asiaUsers, 'asia')
     startRedServer(southAmericaUsers, 'south-america')
     startRedServer(australiaUsers, 'oceania')
+
+    // sort by number of users
+    blueServers.sort((a, b) => (a.users > b.users ? 1 : -1))
 
     blueServers.map((blue) => {
       serversSpeed.map((speed) => {
@@ -479,6 +518,7 @@ const startCalculation = () => {
 
     console.log(blueServers)
     finalTable.classList.remove('hide')
+    background.classList.remove('hide')
   }, 3000)
 }
 
