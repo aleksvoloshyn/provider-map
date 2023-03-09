@@ -28,13 +28,6 @@ let europeUsers = 0
 let asiaUsers = 0
 let southAmericaUsers = 0
 let australiaUsers = 0
-const usersQuantity = {
-  northAmericaUsers: 0,
-  europeUsers: 0,
-  asiaUsers: 0,
-  southAmericaUsers: 0,
-  australiaUsers: 0,
-}
 
 let clientsDataChoosen = false
 let server = ''
@@ -249,7 +242,7 @@ const startCalculation = () => {
     let finalServerStart
     if (server === 'north-america' && serverRegions.includes('north-america')) {
       finalServerLocation = eastUsaServer
-      finalServerLocation = 'east-usa'
+      finalServerStart = 'east-usa'
     }
 
     if (
@@ -275,35 +268,35 @@ const startCalculation = () => {
     }
     console.log(finalServerLocation)
 
-    const startRedServer = (regionUsers) => {
-      if (regionUsers === 1) {
+    const startRedServer = (regionUsers, region) => {
+      if (regionUsers === 1 && deviceRegions.includes(region)) {
         finalServerLocation.insertAdjacentHTML(
           'afterend',
-          `<img class="line blueServ ${finalServerStart}_${item}_small" src="/images/arc_${finalServerStart}_${item}_small.png"  alt="line" /> `
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
         )
       }
       if (regionUsers === 2) {
         finalServerLocation.insertAdjacentHTML(
           'afterend',
-          `<img class="line blueServ ${finalServerStart}_${item}_small" src="/images/arc_${finalServerStart}_${item}_small.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${item}_medium" src="/images/arc_${finalServerStart}_${item}_medium.png"  alt="line" />`
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> 
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
         )
       }
       if (regionUsers === 3) {
         finalServerLocation.insertAdjacentHTML(
           'afterend',
-          `<img class="line blueServ ${finalServerStart}_${item}_small" src="/images/arc_${finalServerStart}_${item}_small.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${item}_medium" src="/images/arc_${finalServerStart}_${item}_medium.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${item}_large" src="/images/arc_${finalServerStart}_${item}_large.png"  alt="line" /> `
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> 
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" /> 
+          <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
         )
       }
     }
 
-    startRedServer(northAmericaUsers)
-    startRedServer(europeUsers)
-    startRedServer(asiaUsers)
-    startRedServer(southAmericaUsers)
-    startRedServer(australiaUsers)
+    startRedServer(northAmericaUsers, 'north-america')
+    startRedServer(europeUsers, 'europe')
+    startRedServer(asiaUsers, 'asia')
+    startRedServer(southAmericaUsers, 'south-america')
+    startRedServer(australiaUsers, 'oceania')
   }, 3000)
 }
 
