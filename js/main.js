@@ -80,6 +80,7 @@ const serversSpeed = [
 
 // {connectedServer: 'east-usa', region: 'europe'}
 const redServers = []
+const blueServers = []
 
 // function for hiding unused regions
 hideEmptyRegions = () => {
@@ -233,14 +234,14 @@ const addLinesToServer = (
   }
 }
 
-const addFinalTable = (region, speed, latency, video, stars) => {
+const addFinalTable = (region, speed, latency, video, stars, insertTo) => {
   const star = '<img class = "star" src = "./images/star.svg"></img>'
   const emptyStar =
     '<img class = "star star-empty" src = "./images/star-empty.svg"></img>'
   const emptStarsResult = 5 - stars
 
   // background.classList.remove('hide')
-  finalTableByteCloud.insertAdjacentHTML(
+  insertTo.insertAdjacentHTML(
     'beforeend',
     `<div class="final-table__bytecloudwrapper">
         <div class="final-table__header">
@@ -326,13 +327,21 @@ const startCalculation = () => {
           red.video = '4K/216p Ultra HD'
           red.stars = 5
         }
-        if (red.speed > 50 && red.speed < 150) {
+        if (red.speed > 50 && red.speed < 100) {
           red.video = '1080p Full HD'
           red.stars = 4
         }
-        if (red.speed > 150) {
+        if (red.speed > 100 && red.speed < 150) {
           red.video = '480p'
           red.stars = 3
+        }
+        if (red.speed > 150 && red.speed < 200) {
+          red.video = '480p'
+          red.stars = 2
+        }
+        if (red.speed > 200) {
+          red.video = '480p'
+          red.stars = 1
         }
       }
     })
@@ -340,74 +349,137 @@ const startCalculation = () => {
 
   console.log(redServers)
   redServers.map((item) => {
-    addFinalTable(item.region, item.speed, item.latency, item.video, item.stars)
+    addFinalTable(
+      item.region,
+      item.speed,
+      item.latency,
+      item.video,
+      item.stars,
+      finalTableByteCloud
+    )
   })
-  finalTable.classList.remove('hide')
-  // setTimeout(() => {
-  //   document.querySelectorAll('.redServ').forEach((serv) => {
-  //     serv.classList.add('hide')
-  //   })
-  //   // src="/images/arc_west-usa_europe_small.png"
-  //   let finalServerLocation
-  //   let finalServerStart
-  //   if (server === 'north-america' && serverRegions.includes('north-america')) {
-  //     finalServerLocation = eastUsaServer
-  //     finalServerStart = 'east-usa'
-  //   }
+  // finalTable.classList.remove('hide')
+  setTimeout(() => {
+    document.querySelectorAll('.redServ').forEach((serv) => {
+      serv.classList.add('hide')
+    })
+    // src="/images/arc_west-usa_europe_small.png"
+    let finalServerLocation
+    let finalServerStart
+    if (server === 'north-america' && serverRegions.includes('north-america')) {
+      finalServerLocation = eastUsaServer
+      finalServerStart = 'east-usa'
+    }
 
-  //   if (
-  //     (server === 'north-america' &&
-  //       serverRegions.includes('north-america') &&
-  //       serverClouds.includes('east-usa')) ||
-  //     (server === 'north-america' && !serverRegions.includes('north-america'))
-  //   ) {
-  //     finalServerLocation = westUsaServer
-  //     finalServerStart = 'west-usa'
-  //   }
-  //   if (server === 'europe') {
-  //     finalServerLocation = germanyServer
-  //     finalServerStart = 'germany'
-  //   }
-  //   if (server === 'asia') {
-  //     finalServerLocation = oceaniaServer
-  //     finalServerStart = 'singapore'
-  //   }
-  //   if (server === 'oceania') {
-  //     finalServerLocation = oceaniaServer
-  //     finalServerStart = 'singapore'
-  //   }
-  //   console.log(finalServerLocation)
+    if (
+      (server === 'north-america' &&
+        serverRegions.includes('north-america') &&
+        serverClouds.includes('east-usa')) ||
+      (server === 'north-america' && !serverRegions.includes('north-america'))
+    ) {
+      finalServerLocation = westUsaServer
+      finalServerStart = 'west-usa'
+    }
+    if (server === 'europe') {
+      finalServerLocation = germanyServer
+      finalServerStart = 'germany'
+    }
+    if (server === 'asia') {
+      finalServerLocation = oceaniaServer
+      finalServerStart = 'singapore'
+    }
+    if (server === 'oceania') {
+      finalServerLocation = oceaniaServer
+      finalServerStart = 'singapore'
+    }
+    console.log(finalServerLocation)
 
-  //   const startRedServer = (regionUsers, region) => {
-  //     if (regionUsers === 1 && deviceRegions.includes(region)) {
-  //       finalServerLocation.insertAdjacentHTML(
-  //         'afterend',
-  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
-  //       )
-  //     }
-  //     if (regionUsers === 2) {
-  //       finalServerLocation.insertAdjacentHTML(
-  //         'afterend',
-  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
-  //         <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
-  //       )
-  //     }
-  //     if (regionUsers === 3) {
-  //       finalServerLocation.insertAdjacentHTML(
-  //         'afterend',
-  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
-  //         <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />
-  //         <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
-  //       )
-  //     }
-  //   }
+    const startRedServer = (regionUsers, region) => {
+      if (regionUsers === 1 && deviceRegions.includes(region)) {
+        blueServers.push({
+          connectedServer: finalServerStart,
+          region: region,
+        })
+        finalServerLocation.insertAdjacentHTML(
+          'afterend',
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
+        )
+      }
+      if (regionUsers === 2) {
+        blueServers.push({
+          connectedServer: finalServerStart,
+          region: region,
+        })
+        finalServerLocation.insertAdjacentHTML(
+          'afterend',
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
+        )
+      }
+      if (regionUsers === 3) {
+        blueServers.push({
+          connectedServer: finalServerStart,
+          region: region,
+        })
+        finalServerLocation.insertAdjacentHTML(
+          'afterend',
+          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
+        )
+      }
+    }
 
-  //   startRedServer(northAmericaUsers, 'north-america')
-  //   startRedServer(europeUsers, 'europe')
-  //   startRedServer(asiaUsers, 'asia')
-  //   startRedServer(southAmericaUsers, 'south-america')
-  //   startRedServer(australiaUsers, 'oceania')
-  // }, 3000)
+    // start one serv
+    startRedServer(northAmericaUsers, 'north-america')
+    startRedServer(europeUsers, 'europe')
+    startRedServer(asiaUsers, 'asia')
+    startRedServer(southAmericaUsers, 'south-america')
+    startRedServer(australiaUsers, 'oceania')
+
+    blueServers.map((blue) => {
+      serversSpeed.map((speed) => {
+        if (speed.region === blue.connectedServer) {
+          blue.speed = speed[blue.region].toFixed(1)
+          blue.latency = ((blue.speed + 5) / 3).toFixed(0)
+          if (blue.speed <= 50) {
+            blue.video = '4K/216p Ultra HD'
+            blue.stars = 5
+          }
+          if (blue.speed > 50 && blue.speed < 100) {
+            blue.video = '1080p Full HD'
+            blue.stars = 4
+          }
+          if (blue.speed > 100 && blue.speed < 150) {
+            blue.video = '480p'
+            blue.stars = 3
+          }
+          if (blue.speed > 150 && blue.speed < 200) {
+            blue.video = '480p'
+            blue.stars = 2
+          }
+          if (blue.speed > 200) {
+            blue.video = '480p'
+            blue.stars = 1
+          }
+        }
+      })
+    })
+
+    blueServers.map((item) => {
+      addFinalTable(
+        item.region,
+        item.speed,
+        item.latency,
+        item.video,
+        item.stars,
+        finalTableobjectstorage
+      )
+    })
+
+    console.log(blueServers)
+    finalTable.classList.remove('hide')
+  }, 3000)
 }
 
 // *******************************************************************************

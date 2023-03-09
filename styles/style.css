@@ -1,5 +1,5 @@
 body {
-  overflow: hidden;
+  
 }
 .mask-large {
   position: absolute;
@@ -12,6 +12,7 @@ p {
 }
 
 .container {
+  position: relative;
   margin: 0 auto;
   width: 1280px;
   height: 720px;
@@ -556,8 +557,8 @@ p {
   margin: 0 auto;
   justify-content: space-evenly;
   position: absolute;
-  top: 9%;
-  left: 25%;
+      top: 6%;
+    left: 12%;
   z-index: 2000;
 }
 
