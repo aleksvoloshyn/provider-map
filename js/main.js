@@ -30,6 +30,9 @@ const finalTableobjectstorage = document.querySelector(
   '.final-table__objectstorage'
 )
 const background = document.querySelector('.table-background')
+const startAgain = document.querySelector('.start-again ')
+const deviceFill = document.querySelectorAll('.device-fill')
+const deviceFillSmall = document.querySelectorAll('.devices-animation--small')
 
 let northAmericaUsers = 0
 let europeUsers = 0
@@ -390,8 +393,19 @@ const startCalculation = () => {
       item.stars,
       finalTableByteCloud
     )
+    // deviceFillSmall.forEach((fill) => {
+    //   if (item.users === 1 && fill.classList.contains(item.region)) {
+    //     fill.classList.remove('hide')
+    //   }
+    //   if (item.users === 2 && fill.classList.contains(item.region)) {
+    //     fill.classList.remove('hide')
+    //   }
+    //   if (item.users === 3 && fill.classList.contains(item.region)) {
+    //     fill.classList.remove('hide')
+    //   }
+    // })
   })
-  // finalTable.classList.remove('hide')
+
   setTimeout(() => {
     document.querySelectorAll('.redServ').forEach((serv) => {
       serv.classList.add('hide')
@@ -427,6 +441,7 @@ const startCalculation = () => {
     }
     console.log(finalServerLocation)
 
+    // Рисуем линии от одного сервера
     const startRedServer = (regionUsers, region) => {
       if (regionUsers === 1 && deviceRegions.includes(region)) {
         blueServers.push({
@@ -467,6 +482,7 @@ const startCalculation = () => {
     }
 
     // start one serv
+
     startRedServer(northAmericaUsers, 'north-america')
     startRedServer(europeUsers, 'europe')
     startRedServer(asiaUsers, 'asia')
@@ -515,11 +531,13 @@ const startCalculation = () => {
         finalTableobjectstorage
       )
     })
-
     console.log(blueServers)
+  }, 5000)
+
+  setTimeout(() => {
     finalTable.classList.remove('hide')
     background.classList.remove('hide')
-  }, 3000)
+  }, 10000)
 }
 
 // *******************************************************************************
@@ -843,3 +861,43 @@ man.forEach((item) => {
     }
   })
 })
+
+// startAgain.addEventListener('click', () => {
+//   const line = document.querySelectorAll('.line')
+//   background.classList.add('hide')
+//   finalTable.classList.add('hide')
+//   germanyServer.classList.add('hide')
+//   eastUsaServer.classList.add('hide')
+//   westUsaServer.classList.add('hide')
+//   oceaniaServer.classList.add('hide')
+//   menNorthamerica.classList.remove('hide')
+//   menEurope.classList.remove('hide')
+//   menAsia.classList.remove('hide')
+//   menAsia.classList.remove('hide')
+//   menAsia.classList.remove('hide')
+//   menSouthamerica.classList.remove('hide')
+//   menAustralia.classList.remove('hide')
+//   deviceAsia.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   deviceSouthamerica.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   deviceAustralia.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   deviceEurope.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   deviceNorthamerica.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+
+//   deviceFill.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   line.forEach((item) => {
+//     item.classList.add('hide')
+//   })
+//   dialogText.classList.remove('hide')
+// })
