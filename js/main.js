@@ -1,3 +1,4 @@
+const container = document.querySelector('.container')
 const man = document.querySelectorAll('.man')
 const deviceNorthamerica = document.querySelectorAll('.device-northamerica')
 const deviceEurope = document.querySelectorAll('.device-europe')
@@ -23,6 +24,13 @@ const eastUsaServer = document.querySelector('.east-usa')
 const westUsaServer = document.querySelector('.west-usa')
 const oceaniaServer = document.querySelector('.oceania')
 
+const finalTable = document.querySelector('.final-table')
+const finalTableByteCloud = document.querySelector('.final-table__bytecloud')
+const finalTableobjectstorage = document.querySelector(
+  '.final-table__objectstorage'
+)
+const background = document.querySelector('.table-background')
+
 let northAmericaUsers = 0
 let europeUsers = 0
 let asiaUsers = 0
@@ -34,6 +42,44 @@ let server = ''
 let serverClouds = []
 let serverRegions = []
 let deviceRegions = []
+
+const serversSpeed = [
+  {
+    region: 'east-usa',
+    asia: 268.34,
+    'south-america': 143.9,
+    europe: 98.87,
+    'north-america': 30.77,
+    oceania: 218.75,
+  },
+  {
+    region: 'germany',
+    asia: 201.46,
+    'south-america': 217.16,
+    europe: 27.66,
+    'north-america': 109.26,
+    oceania: 278.06,
+  },
+  {
+    region: 'west-usa',
+    asia: 230.28,
+    'south-america': 187.64,
+    europe: 166.02,
+    'north-america': 35.32,
+    oceania: 147.78,
+  },
+  {
+    region: 'singapore',
+    asia: 27.23,
+    'south-america': 365.54,
+    europe: 172.86,
+    'north-america': 222.49,
+    oceania: 82.66,
+  },
+]
+
+// {connectedServer: 'east-usa', region: 'europe'}
+const redServers = []
 
 // function for hiding unused regions
 hideEmptyRegions = () => {
@@ -120,6 +166,7 @@ const addLinesToServer = (
     (users === 1 && serverRegions.includes(deviceRegion)) ||
     (users === 1 && serverRegions.includes(server) && server === deviceRegion)
   ) {
+    redServers.push({ connectedServer: dataServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -127,13 +174,12 @@ const addLinesToServer = (
     )
   }
 
-  // if(){}
-
   if (
     (users === 2 && serverClouds.includes(deviceRegion)) ||
     (users === 2 && serverRegions.includes(deviceRegion)) ||
     (users === 2 && serverRegions.includes(server) && server === deviceRegion)
   ) {
+    redServers.push({ connectedServer: dataServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -147,6 +193,7 @@ const addLinesToServer = (
     (users === 3 && serverRegions.includes(deviceRegion)) ||
     (users === 3 && serverRegions.includes(server) && server === deviceRegion)
   ) {
+    redServers.push({ connectedServer: dataServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     location.insertAdjacentHTML(
       'afterend',
@@ -158,6 +205,7 @@ const addLinesToServer = (
 
   // reserve server connection
   if (users === 1 && !serverRegions.includes(deviceRegion)) {
+    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -165,6 +213,7 @@ const addLinesToServer = (
     )
   }
   if (users === 2 && !serverRegions.includes(deviceRegion)) {
+    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -173,6 +222,7 @@ const addLinesToServer = (
     )
   }
   if (users === 3 && !serverRegions.includes(deviceRegion)) {
+    redServers.push({ connectedServer: reserveServer, region: deviceRegion })
     deviceRegions.push(deviceRegion)
     reserveLocation.insertAdjacentHTML(
       'afterend',
@@ -181,6 +231,40 @@ const addLinesToServer = (
        <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="/images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
     )
   }
+}
+
+const addFinalTable = (region, speed, latency, video, stars) => {
+  const star = '<img class = "star" src = "./images/star.svg"></img>'
+  const emptyStar =
+    '<img class = "star star-empty" src = "./images/star-empty.svg"></img>'
+  const emptStarsResult = 5 - stars
+
+  // background.classList.remove('hide')
+  finalTableByteCloud.insertAdjacentHTML(
+    'beforeend',
+    `<div class="final-table__bytecloudwrapper">
+        <div class="final-table__header">
+          <p class="final-region">${region.split('-').join(' ')}</p>
+          <div class="final-table__rating">${emptyStar.repeat(
+            emptStarsResult
+          )} ${star.repeat(stars)}</div>
+        </div>
+        <div class="final-table__data">
+          <div class="final-table__latency">
+            <p class="final-table__topsection">Latency</p>
+            <p class="final-table__datasection">${latency}</p>
+          </div>
+          <div class="final-table__downloadtime">
+            <p class="final-table__topsection">Download time</p>
+            <p class="final-table__datasection">${speed}</p>
+          </div>
+          <div class="final-table__videostreaming">
+            <p class="final-table__topsection">Video streaming</p>
+            <p class="final-table__datasection">${video}</p>
+          </div>
+        </div>
+      </div>`
+  )
 }
 
 // function start animation ************************************
@@ -233,71 +317,97 @@ const startCalculation = () => {
   console.log(`serverRegions: ${serverRegions}`)
   console.log(`deviceRegions: ${deviceRegions}`)
 
-  setTimeout(() => {
-    document.querySelectorAll('.redServ').forEach((serv) => {
-      serv.classList.add('hide')
+  redServers.map((red) => {
+    serversSpeed.map((speed) => {
+      if (speed.region === red.connectedServer) {
+        red.speed = speed[red.region].toFixed(1)
+        red.latency = ((red.speed + 5) / 3).toFixed(0)
+        if (red.speed <= 50) {
+          red.video = '4K/216p Ultra HD'
+          red.stars = 5
+        }
+        if (red.speed > 50 && red.speed < 150) {
+          red.video = '1080p Full HD'
+          red.stars = 4
+        }
+        if (red.speed > 150) {
+          red.video = '480p'
+          red.stars = 3
+        }
+      }
     })
-    // src="/images/arc_west-usa_europe_small.png"
-    let finalServerLocation
-    let finalServerStart
-    if (server === 'north-america' && serverRegions.includes('north-america')) {
-      finalServerLocation = eastUsaServer
-      finalServerStart = 'east-usa'
-    }
+  })
 
-    if (
-      (server === 'north-america' &&
-        serverRegions.includes('north-america') &&
-        serverClouds.includes('east-usa')) ||
-      (server === 'north-america' && !serverRegions.includes('north-america'))
-    ) {
-      finalServerLocation = westUsaServer
-      finalServerStart = 'west-usa'
-    }
-    if (server === 'europe') {
-      finalServerLocation = germanyServer
-      finalServerStart = 'germany'
-    }
-    if (server === 'asia') {
-      finalServerLocation = oceaniaServer
-      finalServerStart = 'singapore'
-    }
-    if (server === 'oceania') {
-      finalServerLocation = oceaniaServer
-      finalServerStart = 'singapore'
-    }
-    console.log(finalServerLocation)
+  console.log(redServers)
+  redServers.map((item) => {
+    addFinalTable(item.region, item.speed, item.latency, item.video, item.stars)
+  })
+  finalTable.classList.remove('hide')
+  // setTimeout(() => {
+  //   document.querySelectorAll('.redServ').forEach((serv) => {
+  //     serv.classList.add('hide')
+  //   })
+  //   // src="/images/arc_west-usa_europe_small.png"
+  //   let finalServerLocation
+  //   let finalServerStart
+  //   if (server === 'north-america' && serverRegions.includes('north-america')) {
+  //     finalServerLocation = eastUsaServer
+  //     finalServerStart = 'east-usa'
+  //   }
 
-    const startRedServer = (regionUsers, region) => {
-      if (regionUsers === 1 && deviceRegions.includes(region)) {
-        finalServerLocation.insertAdjacentHTML(
-          'afterend',
-          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
-        )
-      }
-      if (regionUsers === 2) {
-        finalServerLocation.insertAdjacentHTML(
-          'afterend',
-          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
-        )
-      }
-      if (regionUsers === 3) {
-        finalServerLocation.insertAdjacentHTML(
-          'afterend',
-          `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" /> 
-          <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
-        )
-      }
-    }
+  //   if (
+  //     (server === 'north-america' &&
+  //       serverRegions.includes('north-america') &&
+  //       serverClouds.includes('east-usa')) ||
+  //     (server === 'north-america' && !serverRegions.includes('north-america'))
+  //   ) {
+  //     finalServerLocation = westUsaServer
+  //     finalServerStart = 'west-usa'
+  //   }
+  //   if (server === 'europe') {
+  //     finalServerLocation = germanyServer
+  //     finalServerStart = 'germany'
+  //   }
+  //   if (server === 'asia') {
+  //     finalServerLocation = oceaniaServer
+  //     finalServerStart = 'singapore'
+  //   }
+  //   if (server === 'oceania') {
+  //     finalServerLocation = oceaniaServer
+  //     finalServerStart = 'singapore'
+  //   }
+  //   console.log(finalServerLocation)
 
-    startRedServer(northAmericaUsers, 'north-america')
-    startRedServer(europeUsers, 'europe')
-    startRedServer(asiaUsers, 'asia')
-    startRedServer(southAmericaUsers, 'south-america')
-    startRedServer(australiaUsers, 'oceania')
-  }, 3000)
+  //   const startRedServer = (regionUsers, region) => {
+  //     if (regionUsers === 1 && deviceRegions.includes(region)) {
+  //       finalServerLocation.insertAdjacentHTML(
+  //         'afterend',
+  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
+  //       )
+  //     }
+  //     if (regionUsers === 2) {
+  //       finalServerLocation.insertAdjacentHTML(
+  //         'afterend',
+  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+  //         <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
+  //       )
+  //     }
+  //     if (regionUsers === 3) {
+  //       finalServerLocation.insertAdjacentHTML(
+  //         'afterend',
+  //         `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+  //         <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />
+  //         <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
+  //       )
+  //     }
+  //   }
+
+  //   startRedServer(northAmericaUsers, 'north-america')
+  //   startRedServer(europeUsers, 'europe')
+  //   startRedServer(asiaUsers, 'asia')
+  //   startRedServer(southAmericaUsers, 'south-america')
+  //   startRedServer(australiaUsers, 'oceania')
+  // }, 3000)
 }
 
 // *******************************************************************************
