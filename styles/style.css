@@ -9,6 +9,9 @@ p {
   padding: 0;
   margin: 0;
 }
+/* img {
+  display: block;
+} */
 
 .container {
   position: relative;
@@ -276,11 +279,12 @@ p {
 }
 @keyframes blinker {
   0% {
-    /* filter: drop-shadow(0.2px -0.2px 0.1px salmon); */
+    filter: drop-shadow(5px 5px 5px #222);
     opacity: 0.9;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.5;
+    filter: drop-shadow(5px 5px 5px #222);
   }
   100% {
     opacity: 1;
@@ -777,6 +781,57 @@ p {
   }
 }
 @keyframes device-large {
+  0% {
+    width: 0px;
+  }
+  25% {
+    width: 4px;
+  }
+  50% {
+    width: 7px;
+  }
+  75% {
+    width: 11px;
+  }
+  100% {
+    width: 14px;
+  }
+}
+@keyframes device-small--recount {
+  0% {
+    width: 0px;
+  }
+  25% {
+    width: 8px;
+  }
+  50% {
+    width: 15px;
+  }
+  75% {
+    width: 23px;
+  }
+  100% {
+    width: 33px;
+  }
+}
+@keyframes device-medium--recount {
+  0% {
+    width: 0px;
+  }
+  25% {
+    width: 5px;
+  }
+  50% {
+    width: 10px;
+  }
+  75% {
+    width: 15px;
+  }
+  100% {
+    width: 20px;
+  }
+}
+@keyframes device-large--recount {
   0% {
     width: 0px;
   }

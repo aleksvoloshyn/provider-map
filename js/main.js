@@ -6,6 +6,10 @@ const deviceAsia = document.querySelectorAll('.device-asia')
 const deviceSouthamerica = document.querySelectorAll('.device-southamerica')
 const deviceAustralia = document.querySelectorAll('.device-australia')
 
+const deviceS = document.querySelectorAll('.device-s')
+const deviceM = document.querySelectorAll('.device-m')
+const deviceL = document.querySelectorAll('.device-l')
+
 const menNorthamerica = document.querySelector('.men-northamerica')
 const menEurope = document.querySelector('.men-europe')
 const menAsia = document.querySelector('.men-asia')
@@ -45,6 +49,9 @@ let server = ''
 let serverClouds = []
 let serverRegions = []
 let deviceRegions = []
+
+let redServerSpeed = []
+let maxRedServerSpeed
 
 const serversSpeed = [
   {
@@ -393,20 +400,70 @@ const startCalculation = () => {
       item.stars,
       finalTableByteCloud
     )
-    // deviceFillSmall.forEach((fill) => {
-    //   if (item.users === 1 && fill.classList.contains(item.region)) {
-    //     fill.classList.remove('hide')
-    //   }
-    //   if (item.users === 2 && fill.classList.contains(item.region)) {
-    //     fill.classList.remove('hide')
-    //   }
-    //   if (item.users === 3 && fill.classList.contains(item.region)) {
-    //     fill.classList.remove('hide')
-    //   }
-    // })
+
+    //массив скоростей красных серверов
+    redServerSpeed.push(+item.speed)
+    console.log(redServerSpeed.sort((a, b) => a - b))
+    maxRedServerSpeed = redServerSpeed[redServerSpeed.length - 1]
+
+    // Запуск анимации синего экрана
+    redServers.map((red) => {
+      deviceS.forEach((i) => {
+        if (
+          i.classList.contains('device-s') &&
+          !i.classList.contains('hide') &&
+          red.region === i.dataset.region
+        ) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            red.speed / 10
+            // делим на 10 чтобы быстрее работала анимация, пропорции соблюдены
+          }s device-small cubic-bezier(0, 0, 1, 1);`
+        }
+      })
+      deviceM.forEach((i) => {
+        if (
+          i.classList.contains('device-m') &&
+          !i.classList.contains('hide') &&
+          red.region === i.dataset.region
+        ) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            red.speed / 10
+          }s device-medium cubic-bezier(0, 0, 1, 1);`
+        }
+      })
+      deviceL.forEach((i) => {
+        if (
+          i.classList.contains('device-l') &&
+          !i.classList.contains('hide') &&
+          red.region === i.dataset.region
+        ) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            red.speed / 10
+          }s device-large cubic-bezier(0, 0, 1, 1);`
+
+          return
+        }
+      })
+      // ***********
+    })
   })
 
   setTimeout(() => {
+    // прячем загрузку
+    // deviceFill.forEach((d) => {
+    //   d.style = 'animation: none'
+    // })
+
+    // ****************************
     document.querySelectorAll('.redServ').forEach((serv) => {
       serv.classList.add('hide')
     })
@@ -530,14 +587,45 @@ const startCalculation = () => {
         item.stars,
         finalTableobjectstorage
       )
+      // Запуск анимации синего экрана **снова
+      deviceS.forEach((i) => {
+        if (i.classList.contains('device-s') && !i.classList.contains('hide')) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            item.speed / 6
+          }s device-small--recount cubic-bezier(0, 0, 1, 1);`
+        }
+      })
+      deviceM.forEach((i) => {
+        if (i.classList.contains('device-m') && !i.classList.contains('hide')) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            item.speed / 6
+          }s device-medium--recount cubic-bezier(0, 0, 1, 1);`
+        }
+      })
+      deviceL.forEach((i) => {
+        if (i.classList.contains('device-l') && !i.classList.contains('hide')) {
+          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+            'hide'
+          )
+          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+            item.speed / 6
+          }s device-large--recount cubic-bezier(0, 0, 1, 1);`
+        }
+      })
     })
     console.log(blueServers)
-  }, 5000)
+  }, (maxRedServerSpeed / 10) * 1000 + 2)
 
   setTimeout(() => {
     finalTable.classList.remove('hide')
     background.classList.remove('hide')
-  }, 10000)
+  }, 18000)
 }
 
 // *******************************************************************************
@@ -575,11 +663,6 @@ circleEmpty.forEach((circle) => {
   }
 
   circle.addEventListener('click', (e) => {
-    console.log(e.target)
-    // console.log(e.target.classList)
-    // console.log(clientsDataChoosen)
-    // console.log(serverClouds)
-
     if (clientsDataChoosen === false) {
       circle.setAttribute('src', '/images/server.png')
 
