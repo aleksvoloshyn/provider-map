@@ -52,6 +52,9 @@ let deviceRegions = []
 
 let redServerSpeed = []
 let maxRedServerSpeed
+let blueServerSpeed = []
+let maxBlueServerSpeed
+let lastAnimationDelay = maxBlueServerSpeed + maxRedServerSpeed
 
 const serversSpeed = [
   {
@@ -449,8 +452,6 @@ const startCalculation = () => {
           i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
             red.speed / 10
           }s device-large cubic-bezier(0, 0, 1, 1);`
-
-          return
         }
       })
       // ***********
@@ -587,45 +588,70 @@ const startCalculation = () => {
         item.stars,
         finalTableobjectstorage
       )
+
+      console.log(blueServers)
+
+      //массив скоростей красных серверов
+      blueServerSpeed.push(+item.speed)
+      blueServerSpeed.sort((a, b) => a - b)
+      console.log(blueServerSpeed.sort((a, b) => a - b))
+      maxBlueServerSpeed = blueServerSpeed[blueServerSpeed.length - 1]
+      console.log('end')
       // Запуск анимации синего экрана **снова
-      deviceS.forEach((i) => {
-        if (i.classList.contains('device-s') && !i.classList.contains('hide')) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            item.speed / 6
-          }s device-small--recount cubic-bezier(0, 0, 1, 1);`
-        }
-      })
-      deviceM.forEach((i) => {
-        if (i.classList.contains('device-m') && !i.classList.contains('hide')) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            item.speed / 6
-          }s device-medium--recount cubic-bezier(0, 0, 1, 1);`
-        }
-      })
-      deviceL.forEach((i) => {
-        if (i.classList.contains('device-l') && !i.classList.contains('hide')) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            item.speed / 6
-          }s device-large--recount cubic-bezier(0, 0, 1, 1);`
-        }
+      blueServers.map((blue) => {
+        deviceS.forEach((i) => {
+          if (
+            i.classList.contains('device-s') &&
+            !i.classList.contains('hide') &&
+            blue.region === i.dataset.region
+          ) {
+            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+              'hide'
+            )
+            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+              blue.speed / 10
+            }s device-small--recount cubic-bezier(0, 0, 1, 1);`
+          }
+        })
+        deviceM.forEach((i) => {
+          if (
+            i.classList.contains('device-m') &&
+            !i.classList.contains('hide') &&
+            blue.region === i.dataset.region
+          ) {
+            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+              'hide'
+            ) && blue.region === i.dataset.region
+            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+              blue.speed / 10
+            }s device-medium--recount cubic-bezier(0, 0, 1, 1);`
+          }
+        })
+        deviceL.forEach((i) => {
+          if (
+            i.classList.contains('device-l') &&
+            !i.classList.contains('hide') &&
+            blue.region === i.dataset.region
+          ) {
+            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+              'hide'
+            ) && blue.region === i.dataset.region
+            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+              blue.speed / 10
+            }s device-large--recount cubic-bezier(0, 0, 1, 1);`
+          }
+        })
       })
     })
-    console.log(blueServers)
   }, (maxRedServerSpeed / 10) * 1000 + 2)
 
   setTimeout(() => {
     finalTable.classList.remove('hide')
     background.classList.remove('hide')
-  }, 18000)
+    console.log(maxRedServerSpeed)
+    console.log(maxBlueServerSpeed)
+    console.log(maxRedServerSpeed + maxBlueServerSpeed)
+  }, 20000)
 }
 
 // *******************************************************************************
