@@ -50,12 +50,16 @@ let serverClouds = []
 let serverRegions = []
 let deviceRegions = []
 
+const redServers = []
+const blueServers = []
+
 let redServerSpeed = []
 let maxRedServerSpeed
 let blueServerSpeed = []
 let maxBlueServerSpeed
 let lastAnimationDelay = maxBlueServerSpeed + maxRedServerSpeed
 
+// data about speed between regions from https://wondernetwork.com/pings
 const serversSpeed = [
   {
     region: 'east-usa',
@@ -91,51 +95,40 @@ const serversSpeed = [
   },
 ]
 
-// {connectedServer: 'east-usa', region: 'europe'}
-const redServers = []
-const blueServers = []
-
-// function for hiding unused regions
-hideEmptyRegions = () => {
-  if (northAmericaUsers === 0) {
-    menNorthamerica.classList.add('hide')
-  }
-  if (europeUsers === 0) {
-    menEurope.classList.add('hide')
-  }
-  if (asiaUsers === 0) {
-    menAsia.classList.add('hide')
-  }
-  if (southAmericaUsers === 0) {
-    menSouthamerica.classList.add('hide')
-  }
-  if (australiaUsers === 0) {
-    menAustralia.classList.add('hide')
-  }
+// function: hide unused user icons in regions
+const hideUnusedUserIcons = (users, region) => {
+  users === 0 ? region.classList.add('hide') : false
 }
 
-// function for showing emptycircles
+// function: show empty circles icons
 const showEmptyCircles = () => {
   circleEmpty.forEach((emptycircle) => {
     emptycircle.classList.remove('hide')
   })
 }
-// function for changing dialog text
+// function: change dialog text in header
 const changeDialogeText = (text) => {
   dialogText.innerText = text
 }
 
-// on NEXT BUTTON click
-dialogNextButton.addEventListener('click', () => {
-  hideEmptyRegions()
+// NEXT BUTTON handler
+const nextButtonHandler = () => {
+  hideUnusedUserIcons(northAmericaUsers, menNorthamerica)
+  hideUnusedUserIcons(europeUsers, menEurope)
+  hideUnusedUserIcons(asiaUsers, menAsia)
+  hideUnusedUserIcons(southAmericaUsers, menSouthamerica)
+  hideUnusedUserIcons(australiaUsers, menAustralia)
   showEmptyCircles()
   changeDialogeText(
     'Where is your data? Choose one spot for Object Storage system'
   )
   dialogNextButton.classList.add('hide')
-})
+}
 
-// function for checking if all regions selected => auto starting NEXT step
+//eventlistener for next button
+dialogNextButton.addEventListener('click', nextButtonHandler)
+
+// function: checking if all regions selected => auto starting NEXT step
 const checkAllRegionsChecked = () => {
   if (
     northAmericaUsers !== 0 &&
@@ -152,7 +145,7 @@ const checkAllRegionsChecked = () => {
   }
 }
 
-// function for checking if at least one user selected => add button next
+// function: check if at least one user selected => add button next
 const checkAtleastOneregionChecked = () => {
   if (
     northAmericaUsers !== 0 ||
@@ -162,6 +155,201 @@ const checkAtleastOneregionChecked = () => {
     australiaUsers !== 0
   ) {
     dialogNextButton.classList.remove('hide')
+  }
+}
+
+// *** -
+// function addLinesToServer
+// const addLinesToServer = (
+//   dataServer,
+//   deviceRegion,
+//   users,
+//   location,
+//   reserveServer,
+//   reserveLocation
+// ) => {
+//   // nearest server
+//   if (
+//     (users === 1 && serverClouds.includes(deviceRegion)) ||
+//     (users === 1 && serverRegions.includes(deviceRegion)) ||
+//     (users === 1 && serverRegions.includes(server) && server === deviceRegion)
+//   ) {
+//     redServers.push({
+//       connectedServer: dataServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     location.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
+//     )
+//   }
+
+//   if (
+//     (users === 2 && serverClouds.includes(deviceRegion)) ||
+//     (users === 2 && serverRegions.includes(deviceRegion)) ||
+//     (users === 2 && serverRegions.includes(server) && server === deviceRegion)
+//   ) {
+//     redServers.push({
+//       connectedServer: dataServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     location.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+//         <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
+//         `
+//     )
+//   }
+//   if (
+//     (users === 3 && serverClouds.includes(deviceRegion)) ||
+//     (users === 3 && serverRegions.includes(deviceRegion)) ||
+//     (users === 3 && serverRegions.includes(server) && server === deviceRegion)
+//   ) {
+//     redServers.push({
+//       connectedServer: dataServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     location.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+//           <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
+//          <img class="line redServ ${dataServer}_${deviceRegion}_large" src="/images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
+//     )
+//   }
+
+//   // reserve server connection
+//   if (users === 1 && !serverRegions.includes(deviceRegion)) {
+//     redServers.push({
+//       connectedServer: reserveServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     reserveLocation.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" /> `
+//     )
+//   }
+//   if (users === 2 && !serverRegions.includes(deviceRegion)) {
+//     redServers.push({
+//       connectedServer: reserveServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     reserveLocation.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+//        <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />`
+//     )
+//   }
+//   if (users === 3 && !serverRegions.includes(deviceRegion)) {
+//     redServers.push({
+//       connectedServer: reserveServer,
+//       region: deviceRegion,
+//       users: users,
+//     })
+//     deviceRegions.push(deviceRegion)
+//     reserveLocation.insertAdjacentHTML(
+//       'afterend',
+//       `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+//        <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />
+//        <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="/images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
+//     )
+//   }
+// }
+// *** -
+
+// *** +
+// function: add connection-lines to nearest server
+const addNearestServerLines = (
+  usersQuantity,
+  users,
+  serverClouds,
+  deviceRegion,
+  dataServer,
+  location
+) => {
+  if (
+    (users === usersQuantity && serverClouds.includes(deviceRegion)) ||
+    (users === usersQuantity && serverRegions.includes(deviceRegion)) ||
+    (users === usersQuantity &&
+      serverRegions.includes(server) &&
+      server === deviceRegion)
+  ) {
+    redServers.push({
+      connectedServer: dataServer,
+      region: deviceRegion,
+      users: users,
+    })
+    deviceRegions.push(deviceRegion)
+    if (usersQuantity === 1) {
+      location.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
+      )
+    }
+    if (usersQuantity === 2) {
+      location.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+        <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
+        `
+      )
+    }
+    if (usersQuantity === 3) {
+      location.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+          <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" /> 
+         <img class="line redServ ${dataServer}_${deviceRegion}_large" src="/images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
+      )
+    }
+  }
+}
+
+// function: add connection-lines to reserve server
+const addReserveServerLines = (
+  usersQuantity,
+  users,
+  deviceRegion,
+  reserveServer,
+  reserveLocation
+) => {
+  if (users === usersQuantity && !serverRegions.includes(deviceRegion)) {
+    redServers.push({
+      connectedServer: reserveServer,
+      region: deviceRegion,
+      users: users,
+    })
+    deviceRegions.push(deviceRegion)
+    if (usersQuantity === 1) {
+      reserveLocation.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" /> `
+      )
+    }
+    if (usersQuantity === 2) {
+      reserveLocation.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />`
+      )
+    }
+    if (usersQuantity === 3) {
+      reserveLocation.insertAdjacentHTML(
+        'afterend',
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="/images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
+      )
+    }
   }
 }
 
@@ -175,102 +363,38 @@ const addLinesToServer = (
   reserveLocation
 ) => {
   // nearest server
-  if (
-    (users === 1 && serverClouds.includes(deviceRegion)) ||
-    (users === 1 && serverRegions.includes(deviceRegion)) ||
-    (users === 1 && serverRegions.includes(server) && server === deviceRegion)
-  ) {
-    redServers.push({
-      connectedServer: dataServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    location.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
-    )
-  }
+  addNearestServerLines(
+    1,
+    users,
+    serverClouds,
+    deviceRegion,
+    dataServer,
+    location
+  )
+  addNearestServerLines(
+    2,
+    users,
+    serverClouds,
+    deviceRegion,
+    dataServer,
+    location
+  )
+  addNearestServerLines(
+    3,
+    users,
+    serverClouds,
+    deviceRegion,
+    dataServer,
+    location
+  )
 
-  if (
-    (users === 2 && serverClouds.includes(deviceRegion)) ||
-    (users === 2 && serverRegions.includes(deviceRegion)) ||
-    (users === 2 && serverRegions.includes(server) && server === deviceRegion)
-  ) {
-    redServers.push({
-      connectedServer: dataServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    location.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
-        <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
-        `
-    )
-  }
-  if (
-    (users === 3 && serverClouds.includes(deviceRegion)) ||
-    (users === 3 && serverRegions.includes(deviceRegion)) ||
-    (users === 3 && serverRegions.includes(server) && server === deviceRegion)
-  ) {
-    redServers.push({
-      connectedServer: dataServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    location.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
-          <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" /> 
-         <img class="line redServ ${dataServer}_${deviceRegion}_large" src="/images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
-    )
-  }
-
-  // reserve server connection
-  if (users === 1 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({
-      connectedServer: reserveServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    reserveLocation.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" /> `
-    )
-  }
-  if (users === 2 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({
-      connectedServer: reserveServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    reserveLocation.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />`
-    )
-  }
-  if (users === 3 && !serverRegions.includes(deviceRegion)) {
-    redServers.push({
-      connectedServer: reserveServer,
-      region: deviceRegion,
-      users: users,
-    })
-    deviceRegions.push(deviceRegion)
-    reserveLocation.insertAdjacentHTML(
-      'afterend',
-      `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="/images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
-    )
-  }
+  addReserveServerLines(1, users, deviceRegion, reserveServer, reserveLocation)
+  addReserveServerLines(2, users, deviceRegion, reserveServer, reserveLocation)
+  addReserveServerLines(3, users, deviceRegion, reserveServer, reserveLocation)
 }
+// *** +
 
+// function: add final table with results template
 const addFinalTable = (region, speed, latency, video, stars, insertTo) => {
   const star = '<img class = "star" src = "./images/star.svg"></img>'
   const emptyStar =
@@ -321,7 +445,6 @@ const startCalculation = () => {
     'west-usa',
     westUsaServer
   )
-
   addLinesToServer(
     'germany', //dataServer
     'europe', //deviceRegion
@@ -356,10 +479,10 @@ const startCalculation = () => {
     germanyServer
   )
 
-  console.log(`server: ${server}`)
-  console.log(`serverClouds: ${serverClouds}`)
-  console.log(`serverRegions: ${serverRegions}`)
-  console.log(`deviceRegions: ${deviceRegions}`)
+  // console.log(`server: ${server}`)
+  // console.log(`serverClouds: ${serverClouds}`)
+  // console.log(`serverRegions: ${serverRegions}`)
+  // console.log(`deviceRegions: ${deviceRegions}`)
 
   // sort by number of users
   redServers.sort((a, b) => (a.users > b.users ? 1 : -1))
