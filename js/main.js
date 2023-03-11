@@ -22,8 +22,8 @@ const germanyServer = document.querySelector('.europe')
 const eastUsaServer = document.querySelector('.east-usa')
 const westUsaServer = document.querySelector('.west-usa')
 const oceaniaServer = document.querySelector('.oceania')
-let finalServerLocationRed
-let finalServerStartRed
+let finalServerLocation
+let finalServerStart
 const finalTable = document.querySelector('.final-table')
 const finalTableByteCloud = document.querySelector('.final-table__bytecloud')
 const finalTableobjectstorage = document.querySelector(
@@ -312,6 +312,8 @@ const addFinalTable = (servArr, insertTo) => {
 }
 //  function add video rating data to the server (blue or red) connection
 const addVideoRatingData = (servArr, speedData) => {
+  console.log(servArr)
+  console.log(speedData)
   servArr.map((serv) => {
     speedData.map((speed) => {
       if (speed.region === serv.connectedServer) {
@@ -344,6 +346,7 @@ const addVideoRatingData = (servArr, speedData) => {
 //function: start device progress filling color animation
 const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
   servAr.map((server) => {
+    console.log(server)
     deviceS.forEach((i) => {
       if (
         i.classList.contains('device-s') &&
@@ -418,7 +421,8 @@ const createConnections = () => {
     finalServerLocation = oceaniaServer
     finalServerStart = 'singapore'
   }
-  // console.log(finalServerLocation)
+  console.log(finalServerLocation)
+  console.log(finalServerStart)
 }
 // function hide server connections
 const hideServerConnections = (server) => {
@@ -536,6 +540,10 @@ const startRedServerConnections = () => {
   })
   // start device progress animation for red servers conections
   deviceProgressAnimation(redServers, 'small', 'medium', 'large')
+
+  // *********
+
+  // ***********************
 }
 // function blue server connections start!
 const startBlueServerConnections = () => {
@@ -554,6 +562,19 @@ const startBlueServerConnections = () => {
   console.log(`*** BLUE SERVERS: `)
   console.log(blueServers)
 
+  blueServers.map((item) => {})
+
+  document
+    .querySelector('.devices-northamerica__animation--medium')
+    .style.animation.split('s')[0]
+  blueServers.map((item) => {
+    blueServersSpeed.push(item.speed)
+    blueServersSpeed.sort((a, b) => a - b)
+    console.log(blueServersSpeed)
+    blueServersSpeedMax = blueServersSpeed[blueServersSpeed.length - 1]
+    console.log(blueServersSpeedMax)
+  })
+
   //start device progress animation for blue servers conections
   deviceProgressAnimation(
     blueServers,
@@ -567,12 +588,6 @@ const startCalculation = () => {
   console.log('*****START*******')
   startRedServerConnections()
 
-  let finalDelay = (redServersSpeedMax / 10) * 1000 * 3 + 2000
-
-  // document
-  //   .querySelector('.devices-northamerica__animation--medium')
-  //   .style.animation.split('s')[0]
-
   setTimeout(() => {
     startBlueServerConnections()
   }, (redServersSpeedMax / 10) * 1000 + 2000)
@@ -580,17 +595,18 @@ const startCalculation = () => {
   setTimeout(() => {
     finalTable.classList.remove('hide')
     background.classList.remove('hide')
+
     console.log(
       document
         .querySelector('.devices-northamerica__animation--medium')
         .style.animation.split('s')[0]
     )
-  }, finalDelay)
+  }, document.querySelector('.devices-northamerica__animation--medium').style.animation.split('s')[0])
 }
 
 // *******************************************************************************
 
-// function for hide unused empty circles
+// function: hide unused empty circles
 const hideUnusedCircles = () => {
   circleEmpty.forEach((item) => {
     if (item.getAttribute('src') === '/images/circle_empty.png') {
@@ -599,7 +615,7 @@ const hideUnusedCircles = () => {
   })
 }
 
-// function on Start BUTTON click
+// function: on Start BUTTON click
 const startButtonHandler = () => {
   hideUnusedCircles()
   changeDialogeText('')
