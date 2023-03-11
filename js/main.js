@@ -438,7 +438,7 @@ const sortItems = (arr, item) => {
   arr.sort((a, b) => (a.item > b.item ? 1 : -1))
 }
 
-//   // function add video rating data to the server (blue or red) connection
+//  function add video rating data to the server (blue or red) connection
 const addVideoRatingData = (servArr, speedData) => {
   servArr.map((serv) => {
     speedData.map((speed) => {
@@ -465,6 +465,55 @@ const addVideoRatingData = (servArr, speedData) => {
           serv.video = '480p'
           serv.stars = 1
         }
+      }
+    })
+  })
+}
+
+//function: start device progress filling color animation
+const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
+  servAr.map((server) => {
+    deviceS.forEach((i) => {
+      if (
+        i.classList.contains('device-s') &&
+        !i.classList.contains('hide') &&
+        server.region === i.dataset.region
+      ) {
+        i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+          'hide'
+        )
+        i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+          server.speed / 10
+          // делим на 10 чтобы быстрее работала анимация, пропорции соблюдены
+        }s device-${sClass} cubic-bezier(0, 0, 1, 1);`
+      }
+    })
+    deviceM.forEach((i) => {
+      if (
+        i.classList.contains('device-m') &&
+        !i.classList.contains('hide') &&
+        server.region === i.dataset.region
+      ) {
+        i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+          'hide'
+        )
+        i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+          server.speed / 10
+        }s device-${mClass} cubic-bezier(0, 0, 1, 1);`
+      }
+    })
+    deviceL.forEach((i) => {
+      if (
+        i.classList.contains('device-l') &&
+        !i.classList.contains('hide') &&
+        server.region === i.dataset.region
+      ) {
+        i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+          'hide'
+        )
+        i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+          server.speed / 10
+        }s device-${lClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
   })
@@ -554,8 +603,8 @@ const startCalculation = () => {
   //   })
   // })
   // **-
+  // console.log(redServers)
 
-  console.log(redServers)
   redServers.map((item) => {
     addFinalTable(
       item.region,
@@ -571,53 +620,54 @@ const startCalculation = () => {
     redServerSpeed.sort((a, b) => a - b)
     maxRedServerSpeed = redServerSpeed[redServerSpeed.length - 1]
 
-    // Запуск анимации синего экрана
-    redServers.map((red) => {
-      deviceS.forEach((i) => {
-        if (
-          i.classList.contains('device-s') &&
-          !i.classList.contains('hide') &&
-          red.region === i.dataset.region
-        ) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            red.speed / 10
-            // делим на 10 чтобы быстрее работала анимация, пропорции соблюдены
-          }s device-small cubic-bezier(0, 0, 1, 1);`
-        }
-      })
-      deviceM.forEach((i) => {
-        if (
-          i.classList.contains('device-m') &&
-          !i.classList.contains('hide') &&
-          red.region === i.dataset.region
-        ) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            red.speed / 10
-          }s device-medium cubic-bezier(0, 0, 1, 1);`
-        }
-      })
-      deviceL.forEach((i) => {
-        if (
-          i.classList.contains('device-l') &&
-          !i.classList.contains('hide') &&
-          red.region === i.dataset.region
-        ) {
-          i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-            'hide'
-          )
-          i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-            red.speed / 10
-          }s device-large cubic-bezier(0, 0, 1, 1);`
-        }
-      })
-      // ***********
-    })
+    // start device progress animation for red servers conections
+    deviceProgressAnimation(redServers, 'small', 'medium', 'large')
+    // redServers.map((red) => {
+    //   deviceS.forEach((i) => {
+    //     if (
+    //       i.classList.contains('device-s') &&
+    //       !i.classList.contains('hide') &&
+    //       red.region === i.dataset.region
+    //     ) {
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+    //         'hide'
+    //       )
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+    //         red.speed / 10
+    //         // делим на 10 чтобы быстрее работала анимация, пропорции соблюдены
+    //       }s device-small cubic-bezier(0, 0, 1, 1);`
+    //     }
+    //   })
+    //   deviceM.forEach((i) => {
+    //     if (
+    //       i.classList.contains('device-m') &&
+    //       !i.classList.contains('hide') &&
+    //       red.region === i.dataset.region
+    //     ) {
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+    //         'hide'
+    //       )
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+    //         red.speed / 10
+    //       }s device-medium cubic-bezier(0, 0, 1, 1);`
+    //     }
+    //   })
+    //   deviceL.forEach((i) => {
+    //     if (
+    //       i.classList.contains('device-l') &&
+    //       !i.classList.contains('hide') &&
+    //       red.region === i.dataset.region
+    //     ) {
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+    //         'hide'
+    //       )
+    //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+    //         red.speed / 10
+    //       }s device-large cubic-bezier(0, 0, 1, 1);`
+    //     }
+    //   })
+    //   // ***********
+    // })
   })
 
   setTimeout(() => {
@@ -743,7 +793,6 @@ const startCalculation = () => {
     //   })
     // })
     // **-
-
     blueServers.map((item) => {
       addFinalTable(
         item.region,
@@ -762,58 +811,64 @@ const startCalculation = () => {
       console.log(blueServerSpeed.sort((a, b) => a - b))
       maxBlueServerSpeed = blueServerSpeed[blueServerSpeed.length - 1]
 
-      // Запуск анимации синего экрана **снова
-      blueServers.map((blue) => {
-        deviceS.forEach((i) => {
-          if (
-            i.classList.contains('device-s') &&
-            !i.classList.contains('hide') &&
-            blue.region === i.dataset.region
-          ) {
-            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-              'hide'
-            )
-            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-              blue.speed / 10
-            }s device-small--recount cubic-bezier(0, 0, 1, 1);`
-          }
-        })
-        deviceM.forEach((i) => {
-          if (
-            i.classList.contains('device-m') &&
-            !i.classList.contains('hide') &&
-            blue.region === i.dataset.region
-          ) {
-            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-              'hide'
-            ) && blue.region === i.dataset.region
-            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-              blue.speed / 10
-            }s device-medium--recount cubic-bezier(0, 0, 1, 1);`
-          }
-        })
-        deviceL.forEach((i) => {
-          if (
-            i.classList.contains('device-l') &&
-            !i.classList.contains('hide') &&
-            blue.region === i.dataset.region
-          ) {
-            i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
-              'hide'
-            ) && blue.region === i.dataset.region
-            i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-              blue.speed / 10
-            }s device-large--recount cubic-bezier(0, 0, 1, 1);`
-          }
-        })
-      })
+      //start device progress animation for blue servers conections
+      deviceProgressAnimation(
+        blueServers,
+        'small--recount',
+        'medium--recount',
+        'large--recount'
+      )
+      // blueServers.map((blue) => {
+      //   deviceS.forEach((i) => {
+      //     if (
+      //       i.classList.contains('device-s') &&
+      //       !i.classList.contains('hide') &&
+      //       blue.region === i.dataset.region
+      //     ) {
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+      //         'hide'
+      //       )
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+      //         blue.speed / 10
+      //       }s device-small--recount cubic-bezier(0, 0, 1, 1);`
+      //     }
+      //   })
+      //   deviceM.forEach((i) => {
+      //     if (
+      //       i.classList.contains('device-m') &&
+      //       !i.classList.contains('hide') &&
+      //       blue.region === i.dataset.region
+      //     ) {
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+      //         'hide'
+      //       ) && blue.region === i.dataset.region
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+      //         blue.speed / 10
+      //       }s device-medium--recount cubic-bezier(0, 0, 1, 1);`
+      //     }
+      //   })
+      //   deviceL.forEach((i) => {
+      //     if (
+      //       i.classList.contains('device-l') &&
+      //       !i.classList.contains('hide') &&
+      //       blue.region === i.dataset.region
+      //     ) {
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.classList.remove(
+      //         'hide'
+      //       ) && blue.region === i.dataset.region
+      //       i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
+      //         blue.speed / 10
+      //       }s device-large--recount cubic-bezier(0, 0, 1, 1);`
+      //     }
+      //   })
+      // })
     })
   }, (maxRedServerSpeed / 10) * 1000 + 2)
 
   // setTimeout(() => {
   //   finalTable.classList.remove('hide')
   //   background.classList.remove('hide')
-  // }, 10000)
+  // }, 20000)
 }
 
 // *******************************************************************************
