@@ -433,7 +433,44 @@ const addFinalTable = (region, speed, latency, video, stars, insertTo) => {
   )
 }
 
-// function start animation ************************************
+// functions: sortItems
+const sortItems = (arr, item) => {
+  arr.sort((a, b) => (a.item > b.item ? 1 : -1))
+}
+
+//   // function add video rating data to the server (blue or red) connection
+const addVideoRatingData = (servArr, speedData) => {
+  servArr.map((serv) => {
+    speedData.map((speed) => {
+      if (speed.region === serv.connectedServer) {
+        serv.speed = speed[serv.region].toFixed(1)
+        serv.latency = ((serv.speed + 5) / 3).toFixed(0)
+        if (serv.speed <= 50) {
+          serv.video = '4K/216p Ultra HD'
+          serv.stars = 5
+        }
+        if (serv.speed > 50 && serv.speed < 100) {
+          serv.video = '1080p Full HD'
+          serv.stars = 4
+        }
+        if (serv.speed > 100 && serv.speed < 150) {
+          serv.video = '480p'
+          serv.stars = 3
+        }
+        if (serv.speed > 150 && serv.speed < 200) {
+          serv.video = '480p'
+          serv.stars = 2
+        }
+        if (serv.speed > 200) {
+          serv.video = '480p'
+          serv.stars = 1
+        }
+      }
+    })
+  })
+}
+
+// function: start calculation ************************************
 const startCalculation = () => {
   console.log('****************************')
 
@@ -469,7 +506,6 @@ const startCalculation = () => {
     'east-usa',
     eastUsaServer
   )
-
   addLinesToServer(
     'singapore',
     'oceania',
@@ -484,37 +520,40 @@ const startCalculation = () => {
   // console.log(`serverRegions: ${serverRegions}`)
   // console.log(`deviceRegions: ${deviceRegions}`)
 
-  // sort by number of users
-  redServers.sort((a, b) => (a.users > b.users ? 1 : -1))
-
-  redServers.map((red) => {
-    serversSpeed.map((speed) => {
-      if (speed.region === red.connectedServer) {
-        red.speed = speed[red.region].toFixed(1)
-        red.latency = ((red.speed + 5) / 3).toFixed(0)
-        if (red.speed <= 50) {
-          red.video = '4K/216p Ultra HD'
-          red.stars = 5
-        }
-        if (red.speed > 50 && red.speed < 100) {
-          red.video = '1080p Full HD'
-          red.stars = 4
-        }
-        if (red.speed > 100 && red.speed < 150) {
-          red.video = '480p'
-          red.stars = 3
-        }
-        if (red.speed > 150 && red.speed < 200) {
-          red.video = '480p'
-          red.stars = 2
-        }
-        if (red.speed > 200) {
-          red.video = '480p'
-          red.stars = 1
-        }
-      }
-    })
-  })
+  // sort red server connections with user devices by number of users
+  sortItems(redServers, 'users')
+  // add video rating data to redServers connection
+  addVideoRatingData(redServers, serversSpeed)
+  // **-
+  // redServers.map((red) => {
+  //   serversSpeed.map((speed) => {
+  //     if (speed.region === red.connectedServer) {
+  //       red.speed = speed[red.region].toFixed(1)
+  //       red.latency = ((red.speed + 5) / 3).toFixed(0)
+  //       if (red.speed <= 50) {
+  //         red.video = '4K/216p Ultra HD'
+  //         red.stars = 5
+  //       }
+  //       if (red.speed > 50 && red.speed < 100) {
+  //         red.video = '1080p Full HD'
+  //         red.stars = 4
+  //       }
+  //       if (red.speed > 100 && red.speed < 150) {
+  //         red.video = '480p'
+  //         red.stars = 3
+  //       }
+  //       if (red.speed > 150 && red.speed < 200) {
+  //         red.video = '480p'
+  //         red.stars = 2
+  //       }
+  //       if (red.speed > 200) {
+  //         red.video = '480p'
+  //         red.stars = 1
+  //       }
+  //     }
+  //   })
+  // })
+  // **-
 
   console.log(redServers)
   redServers.map((item) => {
@@ -529,7 +568,7 @@ const startCalculation = () => {
 
     //массив скоростей красных серверов
     redServerSpeed.push(+item.speed)
-    console.log(redServerSpeed.sort((a, b) => a - b))
+    redServerSpeed.sort((a, b) => a - b)
     maxRedServerSpeed = redServerSpeed[redServerSpeed.length - 1]
 
     // Запуск анимации синего экрана
@@ -670,37 +709,40 @@ const startCalculation = () => {
     startRedServer(southAmericaUsers, 'south-america')
     startRedServer(australiaUsers, 'oceania')
 
-    // sort by number of users
-    blueServers.sort((a, b) => (a.users > b.users ? 1 : -1))
-
-    blueServers.map((blue) => {
-      serversSpeed.map((speed) => {
-        if (speed.region === blue.connectedServer) {
-          blue.speed = speed[blue.region].toFixed(1)
-          blue.latency = ((blue.speed + 5) / 3).toFixed(0)
-          if (blue.speed <= 50) {
-            blue.video = '4K/216p Ultra HD'
-            blue.stars = 5
-          }
-          if (blue.speed > 50 && blue.speed < 100) {
-            blue.video = '1080p Full HD'
-            blue.stars = 4
-          }
-          if (blue.speed > 100 && blue.speed < 150) {
-            blue.video = '480p'
-            blue.stars = 3
-          }
-          if (blue.speed > 150 && blue.speed < 200) {
-            blue.video = '480p'
-            blue.stars = 2
-          }
-          if (blue.speed > 200) {
-            blue.video = '480p'
-            blue.stars = 1
-          }
-        }
-      })
-    })
+    // sort blueServer connections with user devices by number of users
+    sortItems(blueServers, 'users')
+    // add video rating data to blueServers connection
+    addVideoRatingData(blueServers, serversSpeed)
+    // **-
+    // blueServers.map((blue) => {
+    //   serversSpeed.map((speed) => {
+    //     if (speed.region === blue.connectedServer) {
+    //       blue.speed = speed[blue.region].toFixed(1)
+    //       blue.latency = ((blue.speed + 5) / 3).toFixed(0)
+    //       if (blue.speed <= 50) {
+    //         blue.video = '4K/216p Ultra HD'
+    //         blue.stars = 5
+    //       }
+    //       if (blue.speed > 50 && blue.speed < 100) {
+    //         blue.video = '1080p Full HD'
+    //         blue.stars = 4
+    //       }
+    //       if (blue.speed > 100 && blue.speed < 150) {
+    //         blue.video = '480p'
+    //         blue.stars = 3
+    //       }
+    //       if (blue.speed > 150 && blue.speed < 200) {
+    //         blue.video = '480p'
+    //         blue.stars = 2
+    //       }
+    //       if (blue.speed > 200) {
+    //         blue.video = '480p'
+    //         blue.stars = 1
+    //       }
+    //     }
+    //   })
+    // })
+    // **-
 
     blueServers.map((item) => {
       addFinalTable(
@@ -714,12 +756,12 @@ const startCalculation = () => {
 
       console.log(blueServers)
 
-      //массив скоростей красных серверов
+      //массив скоростей синих серверов
       blueServerSpeed.push(+item.speed)
       blueServerSpeed.sort((a, b) => a - b)
       console.log(blueServerSpeed.sort((a, b) => a - b))
       maxBlueServerSpeed = blueServerSpeed[blueServerSpeed.length - 1]
-      console.log('end')
+
       // Запуск анимации синего экрана **снова
       blueServers.map((blue) => {
         deviceS.forEach((i) => {
@@ -768,13 +810,10 @@ const startCalculation = () => {
     })
   }, (maxRedServerSpeed / 10) * 1000 + 2)
 
-  setTimeout(() => {
-    finalTable.classList.remove('hide')
-    background.classList.remove('hide')
-    console.log(maxRedServerSpeed)
-    console.log(maxBlueServerSpeed)
-    console.log(maxRedServerSpeed + maxBlueServerSpeed)
-  }, 20000)
+  // setTimeout(() => {
+  //   finalTable.classList.remove('hide')
+  //   background.classList.remove('hide')
+  // }, 10000)
 }
 
 // *******************************************************************************
