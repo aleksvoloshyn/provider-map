@@ -1,56 +1,44 @@
 const container = document.querySelector('.container')
-const man = document.querySelectorAll('.man')
-const deviceNorthamerica = document.querySelectorAll('.device-northamerica')
-const deviceEurope = document.querySelectorAll('.device-europe')
-const deviceAsia = document.querySelectorAll('.device-asia')
-const deviceSouthamerica = document.querySelectorAll('.device-southamerica')
-const deviceAustralia = document.querySelectorAll('.device-australia')
-const deviceS = document.querySelectorAll('.device-s')
-const deviceM = document.querySelectorAll('.device-m')
-const deviceL = document.querySelectorAll('.device-l')
-const menNorthamerica = document.querySelector('.men-northamerica')
-const menEurope = document.querySelector('.men-europe')
-const menAsia = document.querySelector('.men-asia')
-const menSouthamerica = document.querySelector('.men-southamerica')
-const menAustralia = document.querySelector('.men-australia')
-const dialogText = document.querySelector('.dialog-text')
-const dialogNextButton = document.querySelector('.dialog-next')
-const dialogStartButton = document.querySelector('.dialog-start')
-const circleEmpty = document.querySelectorAll('.circle-empty')
-const circleFilled = document.querySelectorAll('.circle-filled')
-const germanyServer = document.querySelector('.europe')
-const eastUsaServer = document.querySelector('.east-usa')
-const westUsaServer = document.querySelector('.west-usa')
-const oceaniaServer = document.querySelector('.oceania')
-let finalServerLocation
-let finalServerStart
-const finalTable = document.querySelector('.final-table')
-const finalTableByteCloud = document.querySelector('.final-table__bytecloud')
-const finalTableobjectstorage = document.querySelector(
-  '.final-table__objectstorage'
-)
 const background = document.querySelector('.table-background')
 const startAgain = document.querySelector('.start-again ')
-const deviceFill = document.querySelectorAll('.device-fill')
-const deviceFillSmall = document.querySelectorAll('.devices-animation--small')
-let northAmericaUsers = 0
-let europeUsers = 0
-let asiaUsers = 0
-let southAmericaUsers = 0
-let australiaUsers = 0
-let clientsDataChoosen = false
-let server = ''
-let serverClouds = []
-let serverRegions = []
-let deviceRegions = []
-const redServers = []
-const blueServers = []
-let redServersSpeed = []
-let redServersSpeedMax
-let blueServersSpeed = []
-let blueServersSpeedMax
-let lastAnimationDelay = blueServersSpeedMax + redServersSpeedMax
+const finalDialog = document.querySelector('.final-dialog ')
 
+const users = {
+  man: document.querySelectorAll('.man'),
+  men: document.querySelectorAll('.men'),
+  menNorthamerica: document.querySelector('.men-northamerica'),
+  menEurope: document.querySelector('.men-europe'),
+  menAsia: document.querySelector('.men-asia'),
+  menSouthamerica: document.querySelector('.men-southamerica'),
+  menAustralia: document.querySelector('.men-australia'),
+}
+const device = {
+  deviceNorthamerica: document.querySelectorAll('.device-northamerica'),
+  deviceEurope: document.querySelectorAll('.device-europe'),
+  deviceAsia: document.querySelectorAll('.device-asia'),
+  deviceSouthamerica: document.querySelectorAll('.device-southamerica'),
+  deviceAustralia: document.querySelectorAll('.device-australia'),
+  deviceS: document.querySelectorAll('.device-s'),
+  deviceM: document.querySelectorAll('.device-m'),
+  deviceL: document.querySelectorAll('.device-l'),
+  deviceFill: document.querySelectorAll('.device-fill'),
+  deviceFillSmall: document.querySelectorAll('.devices-animation--small'),
+}
+const servers = {
+  germanyServer: document.querySelector('.europe'),
+  eastUsaServer: document.querySelector('.east-usa'),
+  westUsaServer: document.querySelector('.west-usa'),
+  oceaniaServer: document.querySelector('.oceania'),
+}
+const dialogs = {
+  dialogText: document.querySelector('.dialog-text'),
+  dialogNextButton: document.querySelector('.dialog-next'),
+  dialogStartButton: document.querySelector('.dialog-start'),
+}
+const circles = {
+  circleEmpty: document.querySelectorAll('.circle-empty'),
+  circleFilled: document.querySelectorAll('.circle-filled'),
+}
 const latency = {
   latencyAll: document.querySelectorAll('.latency'),
   latEur: document.querySelector('.latency-europe'),
@@ -59,7 +47,6 @@ const latency = {
   latSouthAm: document.querySelector('.latency-southamerica'),
   latOceania: document.querySelector('.latency-oceania'),
 }
-
 const time = {
   timeAll: document.querySelectorAll('.time'),
   timeEur: document.querySelector('.time-europe'),
@@ -68,7 +55,31 @@ const time = {
   timeSouthAm: document.querySelector('.time-southamerica'),
   timeOceania: document.querySelector('.time-oceania'),
 }
-
+const finTable = {
+  finalTable: document.querySelector('.final-table'),
+  finalTableByteCloud: document.querySelector('.final-table__bytecloud'),
+  finalTableobjectstorage: document.querySelector(
+    '.final-table__objectstorage'
+  ),
+}
+let finalServerLocation
+let finalServerStart
+let northAmericaUsers = 0
+let europeUsers = 0
+let asiaUsers = 0
+let southAmericaUsers = 0
+let australiaUsers = 0
+let clientsDataChoosen = false
+let server = ''
+const redServers = []
+const blueServers = []
+let serverClouds = []
+let serverRegions = []
+let deviceRegions = []
+let redServersSpeed = []
+let redServersSpeedMax
+let blueServersSpeed = []
+let blueServersSpeedMax
 // data about speed between regions from https://wondernetwork.com/pings
 const serversSpeed = [
   {
@@ -110,29 +121,29 @@ const hideUnusedUserIcons = (users, region) => {
 }
 // function: show empty circles icons
 const showEmptyCircles = () => {
-  circleEmpty.forEach((emptycircle) => {
+  circles.circleEmpty.forEach((emptycircle) => {
     emptycircle.classList.remove('hide')
   })
 }
 // function: change dialog text in header
 const changeDialogeText = (text) => {
-  dialogText.innerText = text
+  dialogs.dialogText.innerText = text
 }
-// NEXT BUTTON handler
+// next button handler
 const nextButtonHandler = () => {
-  hideUnusedUserIcons(northAmericaUsers, menNorthamerica)
-  hideUnusedUserIcons(europeUsers, menEurope)
-  hideUnusedUserIcons(asiaUsers, menAsia)
-  hideUnusedUserIcons(southAmericaUsers, menSouthamerica)
-  hideUnusedUserIcons(australiaUsers, menAustralia)
+  hideUnusedUserIcons(northAmericaUsers, users.menNorthamerica)
+  hideUnusedUserIcons(europeUsers, users.menEurope)
+  hideUnusedUserIcons(asiaUsers, users.menAsia)
+  hideUnusedUserIcons(southAmericaUsers, users.menSouthamerica)
+  hideUnusedUserIcons(australiaUsers, users.menAustralia)
   showEmptyCircles()
   changeDialogeText(
     'Where is your data? Choose one spot for Object Storage system'
   )
-  dialogNextButton.classList.add('hide')
+  dialogs.dialogNextButton.classList.add('hide')
 }
 //eventlistener for next button
-dialogNextButton.addEventListener('click', nextButtonHandler)
+dialogs.dialogNextButton.addEventListener('click', nextButtonHandler)
 // function: checking if all regions selected => auto starting NEXT step
 const checkAllRegionsChecked = () => {
   if (
@@ -146,7 +157,7 @@ const checkAllRegionsChecked = () => {
       'Where is your data? Choose one spot for Object Storage system'
     )
     showEmptyCircles()
-    dialogNextButton.classList.add('hide')
+    dialogs.dialogNextButton.classList.add('hide')
   }
 }
 // function: check if at least one user selected => add button next
@@ -158,7 +169,7 @@ const checkAtleastOneregionChecked = () => {
     southAmericaUsers !== 0 ||
     australiaUsers !== 0
   ) {
-    dialogNextButton.classList.remove('hide')
+    dialogs.dialogNextButton.classList.remove('hide')
   }
 }
 const addNearestServerLines = (
@@ -323,15 +334,12 @@ const addFinalTable = (servArr, insertTo) => {
         </div>
       </div>`
     )
-    // serverSpeed.push(+item.speed)
-    // serverSpeed.sort((a, b) => a - b)
-    // serverSpeedMax = serverSpeed[serverSpeed.length - 1]
   })
 }
 //  function add video rating data to the server (blue or red) connection
 const addVideoRatingData = (servArr, speedData) => {
   // console.log(servArr)
-  console.log(speedData)
+  // console.log(speedData)
   servArr.map((serv) => {
     speedData.map((speed) => {
       if (speed.region === serv.connectedServer) {
@@ -365,7 +373,7 @@ const addVideoRatingData = (servArr, speedData) => {
 const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
   servAr.map((server) => {
     // console.log(server)
-    deviceS.forEach((i) => {
+    device.deviceS.forEach((i) => {
       if (
         i.classList.contains('device-s') &&
         !i.classList.contains('hide') &&
@@ -375,11 +383,11 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10 / 2
+          server.speed / 10 / 3
         }s device-${sClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
-    deviceM.forEach((i) => {
+    device.deviceM.forEach((i) => {
       if (
         i.classList.contains('device-m') &&
         !i.classList.contains('hide') &&
@@ -389,11 +397,11 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10 / 2
+          server.speed / 10 / 3
         }s device-${mClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
-    deviceL.forEach((i) => {
+    device.deviceL.forEach((i) => {
       if (
         i.classList.contains('device-l') &&
         !i.classList.contains('hide') &&
@@ -403,7 +411,7 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10 / 2
+          server.speed / 10 / 3
         }s device-${lClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
@@ -414,7 +422,7 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
 // function: create new connections from blue server
 const createConnections = () => {
   if (server === 'north-america' && serverRegions.includes('north-america')) {
-    finalServerLocation = eastUsaServer
+    finalServerLocation = servers.eastUsaServer
     finalServerStart = 'east-usa'
   }
   if (
@@ -423,19 +431,19 @@ const createConnections = () => {
       serverClouds.includes('east-usa')) ||
     (server === 'north-america' && !serverRegions.includes('north-america'))
   ) {
-    finalServerLocation = westUsaServer
+    finalServerLocation = servers.westUsaServer
     finalServerStart = 'west-usa'
   }
   if (server === 'europe') {
-    finalServerLocation = germanyServer
+    finalServerLocation = servers.germanyServer
     finalServerStart = 'germany'
   }
   if (server === 'asia') {
-    finalServerLocation = oceaniaServer
+    finalServerLocation = servers.oceaniaServer
     finalServerStart = 'singapore'
   }
   if (server === 'oceania') {
-    finalServerLocation = oceaniaServer
+    finalServerLocation = servers.oceaniaServer
     finalServerStart = 'singapore'
   }
   // console.log(finalServerLocation)
@@ -493,45 +501,45 @@ const startRedServerConnections = () => {
     'east-usa', //dataServer
     'north-america', //deviceRegion
     northAmericaUsers, //users
-    eastUsaServer, //location
+    servers.eastUsaServer, //location
     'west-usa', //reserveServer
-    westUsaServer //reserveLocation
+    servers.westUsaServer //reserveLocation
   )
   // europe devices
   addLinesToServer(
     'germany',
     'europe',
     europeUsers,
-    germanyServer,
+    servers.germanyServer,
     'east-usa',
-    eastUsaServer
+    servers.eastUsaServer
   )
   // asia devices
   addLinesToServer(
     'singapore',
     'asia',
     asiaUsers,
-    oceaniaServer,
+    servers.oceaniaServer,
     'germany',
-    germanyServer
+    servers.germanyServer
   )
   // south-america devices
   addLinesToServer(
     'west-usa',
     'south-america',
     southAmericaUsers,
-    westUsaServer,
+    servers.westUsaServer,
     'east-usa',
-    eastUsaServer
+    servers.eastUsaServer
   )
   // oceania devices
   addLinesToServer(
     'singapore',
     'oceania',
     australiaUsers,
-    oceaniaServer,
+    servers.oceaniaServer,
     'germany',
-    germanyServer
+    servers.germanyServer
   )
   // console.log(`server: ${server}`)
   // console.log(`serverClouds: ${serverClouds}`)
@@ -543,9 +551,9 @@ const startRedServerConnections = () => {
   // add video rating data to redServers connection
   addVideoRatingData(redServers, serversSpeed)
 
-  addFinalTable(redServers, finalTableByteCloud)
+  addFinalTable(redServers, finTable.finalTableByteCloud)
 
-  console.log(`*** RED SERVERS: `)
+  console.log(` RED SERVERS: `)
   console.log(redServers)
 
   redServers.map((item) => {
@@ -574,12 +582,10 @@ const startBlueServerConnections = () => {
   sortItems(blueServers)
   // add video rating data to blueServers connection
   addVideoRatingData(blueServers, serversSpeed)
-  addFinalTable(blueServers, finalTableobjectstorage)
-  console.log(`*** BLUE SERVERS: `)
+  addFinalTable(blueServers, finTable.finalTableobjectstorage)
+  console.log(` BLUE SERVERS: `)
   console.log(blueServers)
-
   blueServers.map((item) => {})
-
   document
     .querySelector('.devices-northamerica__animation--medium')
     .style.animation.split('s')[0]
@@ -597,7 +603,6 @@ const startBlueServerConnections = () => {
     'large--recount'
   )
 }
-
 // function toggle time & latency labels
 const toggleLabels = (servers, region, latency, time) => {
   servers.map((i) => {
@@ -608,16 +613,17 @@ const toggleLabels = (servers, region, latency, time) => {
       setTimeout(() => {
         latency.classList.add('hide')
         time.classList.remove('hide')
-      }, (i.latency / 10 / 2) * 1000)
+      }, (i.latency / 10 / 3) * 1000)
     }
   })
 }
-
-// function: start calculation ************************************
+const finalDialogLaunch = () => {
+  finalDialog.classList.remove('hide')
+}
+// function: start calculation
 const startCalculation = () => {
-  console.log('*****START RED*******')
+  console.log('START RED')
   startRedServerConnections()
-  console.log('*****START RED LABELS*******')
   toggleLabels(redServers, 'asia', latency.latAsia, time.timeAsia)
   toggleLabels(redServers, 'europe', latency.latEur, time.timeEur)
   toggleLabels(redServers, 'oceania', latency.latOceania, time.timeOceania)
@@ -633,13 +639,11 @@ const startCalculation = () => {
     latency.latSouthAm,
     time.timeSouthAm
   )
-
   setTimeout(() => {
-    console.log('*****START BLUE *******')
+    console.log('START BLUE')
     latency.latencyAll.forEach((lat) => lat.classList.add('hide'))
     time.timeAll.forEach((lat) => lat.classList.add('hide'))
     startBlueServerConnections()
-    console.log('*****START BLUE LABELS*******')
     toggleLabels(blueServers, 'asia', latency.latAsia, time.timeAsia)
     toggleLabels(blueServers, 'europe', latency.latEur, time.timeEur)
     toggleLabels(blueServers, 'oceania', latency.latOceania, time.timeOceania)
@@ -655,42 +659,82 @@ const startCalculation = () => {
       latency.latSouthAm,
       time.timeSouthAm
     )
-
     setTimeout(() => {
-      finalTable.classList.remove('hide')
+      finTable.finalTable.classList.remove('hide')
       background.classList.remove('hide')
-
-      const redTime = (redServersSpeedMax / 10) * 1000 + 2000
-      const blueTime = (blueServersSpeedMax / 10) * 1000 + 2000
-
-      console.log(redTime.toFixed(2))
-      console.log(blueTime.toFixed(2))
-    }, ((blueServersSpeedMax / 10) * 1000) / 2 + 1000)
-  }, ((redServersSpeedMax / 10) * 1000) / 2 + 1000)
+      finalDialogLaunch()
+    }, ((blueServersSpeedMax / 10) * 1000) / 3 + 1000)
+  }, ((redServersSpeedMax / 10) * 1000) / 3 + 1000)
 }
-// *******************************************************************************
-
 // function: hide unused empty circles
 const hideUnusedCircles = () => {
-  circleEmpty.forEach((item) => {
+  circles.circleEmpty.forEach((item) => {
     if (item.getAttribute('src') === '/images/circle_empty.png') {
       item.classList.add('hide')
     }
   })
 }
-
-// function: on Start BUTTON click
+// function: on start button click
 const startButtonHandler = () => {
   hideUnusedCircles()
   changeDialogeText('')
-  dialogStartButton.classList.add('hide')
+  dialogs.dialogStartButton.classList.add('hide')
   startCalculation()
 }
 
-dialogStartButton.addEventListener('click', () => startButtonHandler())
+const restartDemo = () => {
+  finalServerLocation = ''
+  finalServerStart = ''
+  northAmericaUsers = 0
+  europeUsers = 0
+  asiaUsers = 0
+  southAmericaUsers = 0
+  australiaUsers = 0
+  clientsDataChoosen = false
+  server = ''
+  redServers.length = 0
+  blueServers.length = 0
+  serverClouds = []
+  serverRegions = []
+  deviceRegions = []
+  redServersSpeed = []
+  redServersSpeedMax = ''
+  blueServersSpeed = []
+  blueServersSpeedMax = ''
+
+  background.classList.add('hide')
+  finalDialog.classList.add('hide')
+  finTable.finalTable.classList.add('hide')
+  time.timeAll.forEach((i) => {
+    i.classList.add('hide')
+  })
+  users.men.forEach((i) => {
+    i.classList.remove('hide')
+  })
+  document.querySelectorAll('.device').forEach((i) => {
+    i.classList.add('hide')
+  })
+  document.querySelectorAll('.line').forEach((i) => {
+    i.classList.add('hide')
+  })
+  document.querySelectorAll('.circle-empty').forEach((i) => {
+    i.classList.add('hide')
+  })
+
+  device.deviceFill.forEach((i) => {
+    i.classList.add('hide')
+  })
+  changeDialogeText('Where are your users? Choose the number for every region.')
+}
+
+startAgain.addEventListener('click', () => {
+  restartDemo()
+})
+
+dialogs.dialogStartButton.addEventListener('click', () => startButtonHandler())
 
 // function for adding server icon with filledcircle efect
-circleEmpty.forEach((circle) => {
+circles.circleEmpty.forEach((circle) => {
   circle.onmouseover = () => {
     if (circle.getAttribute('src') === '/images/circle_empty.png') {
       circle.setAttribute('src', '/images/circle_filled.png')
@@ -730,7 +774,7 @@ circleEmpty.forEach((circle) => {
       changeDialogeText(
         'Choose minimum two additional spots for ByteCloud and press '
       )
-      dialogStartButton.classList.remove('hide')
+      dialogs.dialogStartButton.classList.remove('hide')
     } else {
       if (circle.getAttribute('src') === '/images/server.png') {
         return
@@ -752,19 +796,18 @@ circleEmpty.forEach((circle) => {
       }
 
       if (serverClouds.length === 2) {
-        dialogStartButton.classList.add('dialog-start--active')
+        dialogs.dialogStartButton.classList.add('dialog-start--active')
       }
       if (serverClouds.length === 3) {
         changeDialogeText('')
-        dialogStartButton.classList.add('hide')
+        dialogs.dialogStartButton.classList.add('hide')
         startCalculation()
       }
     }
   })
 })
-
 // select users quantity onmouseover - mouseout
-man.forEach((item) => {
+users.man.forEach((item) => {
   item.onmouseover = () => {
     if (
       item.getAttribute('src') === './images/man_empty.png' &&
@@ -820,9 +863,8 @@ man.forEach((item) => {
     }
   }
 })
-
 // users click - device quantity
-man.forEach((item) => {
+users.man.forEach((item) => {
   item.addEventListener('click', () => {
     if (
       item.getAttribute('src') === './images/man_filled.png' &&
@@ -831,7 +873,7 @@ man.forEach((item) => {
       item.parentNode.classList.toggle('hide')
 
       if (item.parentNode.classList.contains('men-northamerica')) {
-        deviceNorthamerica.forEach((dev) => {
+        device.deviceNorthamerica.forEach((dev) => {
           dev.classList.toggle('hide')
         })
         northAmericaUsers = 3
@@ -839,7 +881,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-europe')) {
-        deviceEurope.forEach((dev) => {
+        device.deviceEurope.forEach((dev) => {
           dev.classList.toggle('hide')
         })
         europeUsers = 3
@@ -847,7 +889,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-asia')) {
-        deviceAsia.forEach((dev) => {
+        device.deviceAsia.forEach((dev) => {
           dev.classList.toggle('hide')
         })
         asiaUsers = 3
@@ -855,7 +897,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-southamerica')) {
-        deviceSouthamerica.forEach((dev) => {
+        device.deviceSouthamerica.forEach((dev) => {
           dev.classList.toggle('hide')
         })
         southAmericaUsers = 3
@@ -863,7 +905,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-australia')) {
-        deviceAustralia.forEach((dev) => {
+        device.deviceAustralia.forEach((dev) => {
           dev.classList.toggle('hide')
         })
         australiaUsers = 3
@@ -876,8 +918,9 @@ man.forEach((item) => {
       item.classList.contains('man-m')
     ) {
       item.parentNode.classList.toggle('hide')
+
       if (item.parentNode.classList.contains('men-northamerica')) {
-        deviceNorthamerica.forEach((dev) => {
+        device.deviceNorthamerica.forEach((dev) => {
           if (!dev.classList.contains('device-l')) {
             dev.classList.toggle('hide')
           }
@@ -887,7 +930,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-europe')) {
-        deviceEurope.forEach((dev) => {
+        device.deviceEurope.forEach((dev) => {
           if (!dev.classList.contains('device-l')) {
             dev.classList.toggle('hide')
           }
@@ -897,7 +940,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-asia')) {
-        deviceAsia.forEach((dev) => {
+        device.deviceAsia.forEach((dev) => {
           if (!dev.classList.contains('device-l')) {
             dev.classList.toggle('hide')
           }
@@ -907,7 +950,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-southamerica')) {
-        deviceSouthamerica.forEach((dev) => {
+        device.deviceSouthamerica.forEach((dev) => {
           if (!dev.classList.contains('device-l')) {
             dev.classList.toggle('hide')
           }
@@ -917,7 +960,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-australia')) {
-        deviceAustralia.forEach((dev) => {
+        device.deviceAustralia.forEach((dev) => {
           if (!dev.classList.contains('device-l')) {
             dev.classList.toggle('hide')
           }
@@ -933,7 +976,7 @@ man.forEach((item) => {
     ) {
       item.parentNode.classList.toggle('hide')
       if (item.parentNode.classList.contains('men-northamerica')) {
-        deviceNorthamerica.forEach((dev) => {
+        device.deviceNorthamerica.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
         northAmericaUsers = 1
@@ -941,7 +984,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-europe')) {
-        deviceEurope.forEach((dev) => {
+        device.deviceEurope.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
         europeUsers = 1
@@ -949,7 +992,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-asia')) {
-        deviceAsia.forEach((dev) => {
+        device.deviceAsia.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
         asiaUsers = 1
@@ -957,7 +1000,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-southamerica')) {
-        deviceSouthamerica.forEach((dev) => {
+        device.deviceSouthamerica.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
         southAmericaUsers = 1
@@ -965,7 +1008,7 @@ man.forEach((item) => {
         checkAllRegionsChecked()
       }
       if (item.parentNode.classList.contains('men-australia')) {
-        deviceAustralia.forEach((dev) => {
+        device.deviceAustralia.forEach((dev) => {
           if (dev.classList.contains('device-s')) dev.classList.toggle('hide')
         })
         australiaUsers = 1
@@ -975,43 +1018,3 @@ man.forEach((item) => {
     }
   })
 })
-
-// startAgain.addEventListener('click', () => {
-//   const line = document.querySelectorAll('.line')
-//   background.classList.add('hide')
-//   finalTable.classList.add('hide')
-//   germanyServer.classList.add('hide')
-//   eastUsaServer.classList.add('hide')
-//   westUsaServer.classList.add('hide')
-//   oceaniaServer.classList.add('hide')
-//   menNorthamerica.classList.remove('hide')
-//   menEurope.classList.remove('hide')
-//   menAsia.classList.remove('hide')
-//   menAsia.classList.remove('hide')
-//   menAsia.classList.remove('hide')
-//   menSouthamerica.classList.remove('hide')
-//   menAustralia.classList.remove('hide')
-//   deviceAsia.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   deviceSouthamerica.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   deviceAustralia.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   deviceEurope.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   deviceNorthamerica.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-
-//   deviceFill.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   line.forEach((item) => {
-//     item.classList.add('hide')
-//   })
-//   dialogText.classList.remove('hide')
-// })
