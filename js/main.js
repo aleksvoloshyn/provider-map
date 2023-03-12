@@ -51,6 +51,24 @@ let blueServersSpeed = []
 let blueServersSpeedMax
 let lastAnimationDelay = blueServersSpeedMax + redServersSpeedMax
 
+const latency = {
+  latencyAll: document.querySelectorAll('.latency'),
+  latEur: document.querySelector('.latency-europe'),
+  latAsia: document.querySelector('.latency-asia'),
+  latNorthAm: document.querySelector('.latency-northamerica'),
+  latSouthAm: document.querySelector('.latency-southamerica'),
+  latOceania: document.querySelector('.latency-oceania'),
+}
+
+const time = {
+  timeAll: document.querySelectorAll('.time'),
+  timeEur: document.querySelector('.time-europe'),
+  timeAsia: document.querySelector('.time-asia'),
+  timeNorthAm: document.querySelector('.time-northamerica'),
+  timeSouthAm: document.querySelector('.time-southamerica'),
+  timeOceania: document.querySelector('.time-oceania'),
+}
+
 // data about speed between regions from https://wondernetwork.com/pings
 const serversSpeed = [
   {
@@ -288,15 +306,15 @@ const addFinalTable = (servArr, insertTo) => {
         <div class="final-table__data">
           <div class="final-table__latency">
             <p class="final-table__topsection">Latency</p>
-            <p class="final-table__datasection">${(item.latency / 1000).toFixed(
-              3
-            )}</p>
+            <p class="final-table__datasection">${Number(
+              item.latency / 1000
+            ).toFixed(2)}</p>
           </div>
           <div class="final-table__downloadtime">
             <p class="final-table__topsection">Download time</p>
-            <p class="final-table__datasection">${(item.speed / 1000).toFixed(
-              2
-            )} sec</p>
+            <p class="final-table__datasection">${Number(
+              item.speed / 1000
+            ).toFixed(2)} sec</p>
           </div>
           <div class="final-table__videostreaming">
             <p class="final-table__topsection">Video streaming</p>
@@ -312,7 +330,7 @@ const addFinalTable = (servArr, insertTo) => {
 }
 //  function add video rating data to the server (blue or red) connection
 const addVideoRatingData = (servArr, speedData) => {
-  console.log(servArr)
+  // console.log(servArr)
   console.log(speedData)
   servArr.map((serv) => {
     speedData.map((speed) => {
@@ -346,7 +364,7 @@ const addVideoRatingData = (servArr, speedData) => {
 //function: start device progress filling color animation
 const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
   servAr.map((server) => {
-    console.log(server)
+    // console.log(server)
     deviceS.forEach((i) => {
       if (
         i.classList.contains('device-s') &&
@@ -357,8 +375,7 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10
-          // делим на 10 чтобы быстрее работала анимация, пропорции соблюдены
+          server.speed / 10 / 2
         }s device-${sClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
@@ -372,7 +389,7 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10
+          server.speed / 10 / 2
         }s device-${mClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
@@ -386,7 +403,7 @@ const deviceProgressAnimation = (servAr, sClass, mClass, lClass) => {
           'hide'
         )
         i.nextElementSibling.nextElementSibling.nextElementSibling.style = `animation: ${
-          server.speed / 10
+          server.speed / 10 / 2
         }s device-${lClass} cubic-bezier(0, 0, 1, 1);`
       }
     })
@@ -421,8 +438,8 @@ const createConnections = () => {
     finalServerLocation = oceaniaServer
     finalServerStart = 'singapore'
   }
-  console.log(finalServerLocation)
-  console.log(finalServerStart)
+  // console.log(finalServerLocation)
+  // console.log(finalServerStart)
 }
 // function hide server connections
 const hideServerConnections = (server) => {
@@ -534,9 +551,8 @@ const startRedServerConnections = () => {
   redServers.map((item) => {
     redServersSpeed.push(item.speed)
     redServersSpeed.sort((a, b) => a - b)
-    console.log(redServersSpeed)
+
     redServersSpeedMax = redServersSpeed[redServersSpeed.length - 1]
-    console.log(redServersSpeedMax)
   })
   // start device progress animation for red servers conections
   deviceProgressAnimation(redServers, 'small', 'medium', 'large')
@@ -570,9 +586,7 @@ const startBlueServerConnections = () => {
   blueServers.map((item) => {
     blueServersSpeed.push(item.speed)
     blueServersSpeed.sort((a, b) => a - b)
-    console.log(blueServersSpeed)
     blueServersSpeedMax = blueServersSpeed[blueServersSpeed.length - 1]
-    console.log(blueServersSpeedMax)
   })
 
   //start device progress animation for blue servers conections
@@ -583,27 +597,77 @@ const startBlueServerConnections = () => {
     'large--recount'
   )
 }
-// function: start calculation ************************************
-const startCalculation = () => {
-  console.log('*****START*******')
-  startRedServerConnections()
 
-  setTimeout(() => {
-    startBlueServerConnections()
-  }, (redServersSpeedMax / 10) * 1000 + 2000)
-
-  setTimeout(() => {
-    finalTable.classList.remove('hide')
-    background.classList.remove('hide')
-
-    console.log(
-      document
-        .querySelector('.devices-northamerica__animation--medium')
-        .style.animation.split('s')[0]
-    )
-  }, document.querySelector('.devices-northamerica__animation--medium').style.animation.split('s')[0])
+// function toggle time & latency labels
+const toggleLabels = (servers, region, latency, time) => {
+  servers.map((i) => {
+    if (i.region === region) {
+      latency.innerText = `latency: ${(i.latency / 1000).toFixed(2)}`
+      time.innerText = `time: ${(i.speed / 1000).toFixed(2)} sec`
+      latency.classList.remove('hide')
+      setTimeout(() => {
+        latency.classList.add('hide')
+        time.classList.remove('hide')
+      }, (i.latency / 10 / 2) * 1000)
+    }
+  })
 }
 
+// function: start calculation ************************************
+const startCalculation = () => {
+  console.log('*****START RED*******')
+  startRedServerConnections()
+  console.log('*****START RED LABELS*******')
+  toggleLabels(redServers, 'asia', latency.latAsia, time.timeAsia)
+  toggleLabels(redServers, 'europe', latency.latEur, time.timeEur)
+  toggleLabels(redServers, 'oceania', latency.latOceania, time.timeOceania)
+  toggleLabels(
+    redServers,
+    'north-america',
+    latency.latNorthAm,
+    time.timeNorthAm
+  )
+  toggleLabels(
+    redServers,
+    'south-america',
+    latency.latSouthAm,
+    time.timeSouthAm
+  )
+
+  setTimeout(() => {
+    console.log('*****START BLUE *******')
+    latency.latencyAll.forEach((lat) => lat.classList.add('hide'))
+    time.timeAll.forEach((lat) => lat.classList.add('hide'))
+    startBlueServerConnections()
+    console.log('*****START BLUE LABELS*******')
+    toggleLabels(blueServers, 'asia', latency.latAsia, time.timeAsia)
+    toggleLabels(blueServers, 'europe', latency.latEur, time.timeEur)
+    toggleLabels(blueServers, 'oceania', latency.latOceania, time.timeOceania)
+    toggleLabels(
+      blueServers,
+      'north-america',
+      latency.latNorthAm,
+      time.timeNorthAm
+    )
+    toggleLabels(
+      blueServers,
+      'south-america',
+      latency.latSouthAm,
+      time.timeSouthAm
+    )
+
+    setTimeout(() => {
+      finalTable.classList.remove('hide')
+      background.classList.remove('hide')
+
+      const redTime = (redServersSpeedMax / 10) * 1000 + 2000
+      const blueTime = (blueServersSpeedMax / 10) * 1000 + 2000
+
+      console.log(redTime.toFixed(2))
+      console.log(blueTime.toFixed(2))
+    }, ((blueServersSpeedMax / 10) * 1000) / 2 + 1000)
+  }, ((redServersSpeedMax / 10) * 1000) / 2 + 1000)
+}
 // *******************************************************************************
 
 // function: hide unused empty circles
