@@ -16,7 +16,7 @@ p {
   margin: 0 auto;
   width: 1280px;
   height: 720px;
-  background-image: url('/images/map.png');
+  background-image: url('../images/map.png');
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .dialog-section {

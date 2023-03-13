@@ -196,23 +196,23 @@ const addNearestServerLines = (
     if (usersQuantity === 1) {
       location.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="./images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />`
       )
     }
     if (usersQuantity === 2) {
       location.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
-        <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="./images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+        <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="./images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" />
         `
       )
     }
     if (usersQuantity === 3) {
       location.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="/images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
-          <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="/images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" /> 
-         <img class="line redServ ${dataServer}_${deviceRegion}_large" src="/images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
+        `<img class="line redServ ${dataServer}_${deviceRegion}_small" src="./images/arc_${dataServer}_${deviceRegion}_small.png"  alt="line" />
+          <img class="line redServ ${dataServer}_${deviceRegion}_medium" src="./images/arc_${dataServer}_${deviceRegion}_medium.png"  alt="line" /> 
+         <img class="line redServ ${dataServer}_${deviceRegion}_large" src="./images/arc_${dataServer}_${deviceRegion}_large.png"  alt="line" />       `
       )
     }
   }
@@ -235,22 +235,22 @@ const addReserveServerLines = (
     if (usersQuantity === 1) {
       reserveLocation.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" /> `
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="./images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" /> `
       )
     }
     if (usersQuantity === 2) {
       reserveLocation.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />`
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="./images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="./images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />`
       )
     }
     if (usersQuantity === 3) {
       reserveLocation.insertAdjacentHTML(
         'afterend',
-        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="/images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="/images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />
-       <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="/images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
+        `<img class="line redServ ${reserveServer}_${deviceRegion}_small" src="./images/arc_${reserveServer}_${deviceRegion}_small.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_medium" src="./images/arc_${reserveServer}_${deviceRegion}_medium.png"  alt="line" />
+       <img class="line redServ ${reserveServer}_${deviceRegion}_large" src="./images/arc_${reserveServer}_${deviceRegion}_large.png"  alt="line" />       `
       )
     }
   }
@@ -465,7 +465,7 @@ const addLinesToBlueServer = (regionUsers, region) => {
     })
     finalServerLocation.insertAdjacentHTML(
       'afterend',
-      `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
+      `<img class="line blueServ ${finalServerStart}_${region}_small" src="./images/arc_${finalServerStart}_${region}_small.png"  alt="line" /> `
     )
   }
   if (regionUsers === 2) {
@@ -476,8 +476,8 @@ const addLinesToBlueServer = (regionUsers, region) => {
     })
     finalServerLocation.insertAdjacentHTML(
       'afterend',
-      `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
-          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
+      `<img class="line blueServ ${finalServerStart}_${region}_small" src="./images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="./images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />`
     )
   }
   if (regionUsers === 3) {
@@ -488,9 +488,9 @@ const addLinesToBlueServer = (regionUsers, region) => {
     })
     finalServerLocation.insertAdjacentHTML(
       'afterend',
-      `<img class="line blueServ ${finalServerStart}_${region}_small" src="/images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
-          <img class="line blueServ ${finalServerStart}_${region}_medium" src="/images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />
-          <img class="line blueServ ${finalServerStart}_${region}_large" src="/images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
+      `<img class="line blueServ ${finalServerStart}_${region}_small" src="./images/arc_${finalServerStart}_${region}_small.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_medium" src="./images/arc_${finalServerStart}_${region}_medium.png"  alt="line" />
+          <img class="line blueServ ${finalServerStart}_${region}_large" src="./images/arc_${finalServerStart}_${region}_large.png"  alt="line" /> `
     )
   }
 }
@@ -687,19 +687,19 @@ dialogs.dialogStartButton.addEventListener('click', () => startButtonHandler())
 // function for adding server icon with filledcircle efect
 circles.circleEmpty.forEach((circle) => {
   circle.onmouseover = () => {
-    if (circle.getAttribute('src') === '/images/circle_empty.png') {
-      circle.setAttribute('src', '/images/circle_filled.png')
+    if (circle.getAttribute('src') === './images/circle_empty.png') {
+      circle.setAttribute('src', './images/circle_filled.png')
     }
   }
   circle.onmouseout = () => {
-    if (circle.getAttribute('src') === '/images/circle_filled.png') {
-      circle.setAttribute('src', '/images/circle_empty.png')
+    if (circle.getAttribute('src') === './images/circle_filled.png') {
+      circle.setAttribute('src', './images/circle_empty.png')
     }
   }
 
   circle.addEventListener('click', (e) => {
     if (clientsDataChoosen === false) {
-      circle.setAttribute('src', '/images/server.png')
+      circle.setAttribute('src', './images/server.png')
 
       if (e.target.classList.contains('europe')) {
         server = 'europe'
@@ -727,11 +727,11 @@ circles.circleEmpty.forEach((circle) => {
       )
       dialogs.dialogStartButton.classList.remove('hide')
     } else {
-      if (circle.getAttribute('src') === '/images/server.png') {
+      if (circle.getAttribute('src') === './images/server.png') {
         return
       }
-      if (circle.getAttribute('src') !== '/images/server.png') {
-        circle.setAttribute('src', '/images/server_ByteCloud.png')
+      if (circle.getAttribute('src') !== './images/server.png') {
+        circle.setAttribute('src', './images/server_ByteCloud.png')
         if (serverClouds.includes(circle.classList[2])) {
           return
         } else {
