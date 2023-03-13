@@ -682,55 +682,6 @@ const startButtonHandler = () => {
   startCalculation()
 }
 
-const restartDemo = () => {
-  finalServerLocation = ''
-  finalServerStart = ''
-  northAmericaUsers = 0
-  europeUsers = 0
-  asiaUsers = 0
-  southAmericaUsers = 0
-  australiaUsers = 0
-  clientsDataChoosen = false
-  server = ''
-  redServers.length = 0
-  blueServers.length = 0
-  serverClouds = []
-  serverRegions = []
-  deviceRegions = []
-  redServersSpeed = []
-  redServersSpeedMax = ''
-  blueServersSpeed = []
-  blueServersSpeedMax = ''
-
-  background.classList.add('hide')
-  finalDialog.classList.add('hide')
-  finTable.finalTable.classList.add('hide')
-  time.timeAll.forEach((i) => {
-    i.classList.add('hide')
-  })
-  users.men.forEach((i) => {
-    i.classList.remove('hide')
-  })
-  document.querySelectorAll('.device').forEach((i) => {
-    i.classList.add('hide')
-  })
-  document.querySelectorAll('.line').forEach((i) => {
-    i.classList.add('hide')
-  })
-  document.querySelectorAll('.circle-empty').forEach((i) => {
-    i.classList.add('hide')
-  })
-
-  device.deviceFill.forEach((i) => {
-    i.classList.add('hide')
-  })
-  changeDialogeText('Where are your users? Choose the number for every region.')
-}
-
-startAgain.addEventListener('click', () => {
-  restartDemo()
-})
-
 dialogs.dialogStartButton.addEventListener('click', () => startButtonHandler())
 
 // function for adding server icon with filledcircle efect
