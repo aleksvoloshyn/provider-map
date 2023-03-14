@@ -622,6 +622,7 @@ const finalDialogLaunch = () => {
 }
 // function: start calculation
 const startCalculation = () => {
+  document.query
   console.log('START RED')
   startRedServerConnections()
   toggleLabels(redServers, 'asia', latency.latAsia, time.timeAsia)
@@ -668,8 +669,12 @@ const startCalculation = () => {
 }
 // function: hide unused empty circles
 const hideUnusedCircles = () => {
+  console.log(circles.circleEmpty)
   circles.circleEmpty.forEach((item) => {
-    if (item.getAttribute('src') === '/images/circle_empty.png') {
+    console.log(item)
+    if (item.getAttribute('src') === './images/circle_empty.png') {
+      console.log(item)
+      console.log(true)
       item.classList.add('hide')
     }
   })
